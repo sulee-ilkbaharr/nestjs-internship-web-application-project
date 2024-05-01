@@ -10,6 +10,10 @@ import { Task } from './task.entity';
 export class TasksService {
   constructor(private readonly tasksRepository: TaskRepository) {}
 
+  getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.tasksRepository.getTasks(filterDto);
+  }
+
   // private tasks: Task[] = [];
   // getAllTasks(): Task[] {
   //   return this.tasks;
@@ -69,13 +73,17 @@ export class TasksService {
   //   this.tasks.push(task);
   //   return task;
   // }
-  // deleteTask(id: string): void {
-  //   const found = this.getTaskById(id);
-  //   this.tasks = this.tasks.filter((task) => task.id !== found.id);
-  // }
-  // updateTaskStatus(id: string, status: TaskStatus) {
-  //   const task = this.getTaskById(id);
-  //   task.status = status;
-  //   return task;
-  // }
+  async deleteTask(id: string): Promise<void> {
+    const result = await this.tasksRepository.delete(id);
+    if (result.affected == 0) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    console.log(result);
+  }
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+    task.status = status;
+    await this.tasksRepository.save(task);
+    return task;
+  }
 }
