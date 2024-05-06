@@ -23,6 +23,7 @@ export class InternshipController {
 
   @Get()
   getInternships(
+    //ACADEMİC UNIT,FACULTY ADMINISTRATION
     @Query() filterDto: GetInternshipFilterDto,
   ): Promise<Internship[]> {
     return this.internshipsService.getInternships(filterDto);
@@ -35,6 +36,7 @@ export class InternshipController {
 
   @Post()
   createInternship(
+    //STUDENT İNTERNSHİP OLUŞTURABİLİR.
     @Body() createInternshipDto: CreateInternshipDto,
   ): Promise<Internship> {
     return this.internshipsService.createInternship(createInternshipDto);
