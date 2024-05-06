@@ -4,7 +4,7 @@ import { InternshipStatus } from '../internship-status.enum';
 export class GetInternshipFilterDto {
   @IsOptional()
   @IsEnum(InternshipStatus)
-  status?: InternshipStatus; //optinal
+  status?: InternshipStatus; //
 
   @IsOptional() //Bunu Ekle hata almamak için
   @IsString()

@@ -6,7 +6,7 @@
 // }
 
 export enum InternshipStatus {
-  APPROVED = 'APPROVED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  REJECTED = 'REJECTED',
+  APPROVED = 'APPROVED', //kabul aldı
+  IN_PROGRESS = 'IN_PROGRESS', // değerlendirmede
+  REJECTED = 'REJECTED', // reddedildi.
 }

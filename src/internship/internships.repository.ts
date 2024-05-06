@@ -30,9 +30,25 @@ export class InternshipRepository extends Repository<Internship> {
     return internships;
   }
 
-  async createInternship({ title }: CreateInternshipDto): Promise<Internship> {
+  async createInternship({
+    companyName,
+    departmentName,
+    internshipNo,
+    companyEmail,
+    companyPhone,
+    companyAdress,
+    internshipStartDate,
+    internshipFinishDate,
+  }: CreateInternshipDto): Promise<Internship> {
     const internship = this.create({
-      title,
+      companyName,
+      departmentName,
+      internshipNo,
+      companyEmail,
+      companyPhone,
+      companyAdress,
+      internshipFinishDate,
+      internshipStartDate,
       status: InternshipStatus.IN_PROGRESS,
     });
     await this.save(internship);

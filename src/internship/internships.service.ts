@@ -11,6 +11,7 @@ export class InternshipsService {
   constructor(private readonly internshipsRepository: InternshipRepository) {}
 
   getInternships(filterDto: GetInternshipFilterDto): Promise<Internship[]> {
+    //yetkili kişi get internship metodu ile internshipleri çekebilir
     return this.internshipsRepository.getInterships(filterDto);
   }
 

@@ -16,13 +16,13 @@ import { Internship } from './Internship.entity';
 import { UpdateInternshipStatusDto } from './dto/update-internship-status.dto';
 import { InternshipsService } from './internships.service';
 
-@Controller('intership')
+@Controller('internship')
 @UseGuards(AuthGuard()) //Giriş yapıp yapmamdığını kontrol eder!!!!önemliiii
 export class InternshipController {
   constructor(private internshipsService: InternshipsService) {}
 
   @Get()
-  getInterships(
+  getInternships(
     @Query() filterDto: GetInternshipFilterDto,
   ): Promise<Internship[]> {
     return this.internshipsService.getInternships(filterDto);
@@ -34,14 +34,14 @@ export class InternshipController {
   }
 
   @Post()
-  createIntership(
+  createInternship(
     @Body() createInternshipDto: CreateInternshipDto,
   ): Promise<Internship> {
     return this.internshipsService.createInternship(createInternshipDto);
   }
 
   @Delete('/:id')
-  deleteIntership(@Param('id') id: string): Promise<void> {
+  deleteInternship(@Param('id') id: string): Promise<void> {
     return this.internshipsService.deleteInternship(id);
   }
 
