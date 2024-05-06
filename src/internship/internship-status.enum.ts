@@ -7,6 +7,6 @@
 
 export enum InternshipStatus {
   APPROVED = 'APPROVED',
-  // IN_PROGRESS = 'IN_PROGRESS',
-  REJECTED= 'REJECTED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  REJECTED = 'REJECTED',
 }

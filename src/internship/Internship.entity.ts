@@ -12,5 +12,5 @@ export class Internship {
   // description: string;
 
   @Column()
-  status: string;
+  status: string; //approved, rejected
 }

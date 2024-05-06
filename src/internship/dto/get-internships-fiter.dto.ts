@@ -1,10 +1,10 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { TaskStatus } from '../task-status.enum';
+import { InternshipStatus } from '../internship-status.enum';
 
-export class GetTasksFilterDto {
+export class GetInternshipFilterDto {
   @IsOptional()
-  @IsEnum(TaskStatus)
-  status?: TaskStatus; //optinal
+  @IsEnum(InternshipStatus)
+  status?: InternshipStatus; //optinal
 
   @IsOptional() //Bunu Ekle hata almamak için
   @IsString()
