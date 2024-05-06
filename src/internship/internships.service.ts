@@ -16,6 +16,7 @@ export class InternshipsService {
   }
 
   async getIntershipById(id: string): Promise<Internship> {
+    // Update metotunda ihtiyaç olacak.Udpate metodu statusün bölüm başkanı ve dekan tarafından update edilmesini sağlayacak!
     const found = await this.internshipsRepository.findOne({ where: { id } });
 
     if (!found) {
@@ -65,6 +66,7 @@ export class InternshipsService {
     console.log(result);
   }
   async updateInternshipStatus(
+    //status bölüm başkanı ve dekan tarafından update edilir!
     id: string,
     status: InternshipStatus,
   ): Promise<Internship> {
