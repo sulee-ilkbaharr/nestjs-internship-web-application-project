@@ -5,19 +5,25 @@ import { InternshipRepository } from './internships.repository';
 
 import { Internship } from './Internship.entity';
 import { InternshipStatus } from './internship-status.enum';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class InternshipsService {
   constructor(private readonly internshipsRepository: InternshipRepository) {}
 
-  getInternships(filterDto: GetInternshipFilterDto): Promise<Internship[]> {
+  getInternships(
+    filterDto: GetInternshipFilterDto,
+    user: User,
+  ): Promise<Internship[]> {
     //yetkili kişi get internship metodu ile internshipleri çekebilir
-    return this.internshipsRepository.getInterships(filterDto);
+    return this.internshipsRepository.getInterships(filterDto, user);
   }
 
-  async getIntershipById(id: string): Promise<Internship> {
+  async getIntershipById(id: string, user: User): Promise<Internship> {
     // Update metotunda ihtiyaç olacak.Udpate metodu statusün bölüm başkanı ve dekan tarafından update edilmesini sağlayacak!
-    const found = await this.internshipsRepository.findOne({ where: { id } });
+    const found = await this.internshipsRepository.findOne({
+      where: { id, user },
+    });
 
     if (!found) {
       throw new NotFoundException('Internship with ID "${id}" not found');
@@ -35,8 +41,12 @@ export class InternshipsService {
 
   async createInternship(
     createInternshipDto: CreateInternshipDto,
+    user: User,
   ): Promise<Internship> {
-    return this.internshipsRepository.createInternship(createInternshipDto);
+    return this.internshipsRepository.createInternship(
+      createInternshipDto,
+      user,
+    );
     // const { title, description } = createTaskDto;
     // const task = this.tasksRepository.create({
     //   title,
@@ -58,8 +68,8 @@ export class InternshipsService {
   //   this.tasks.push(task);
   //   return task;
   // }
-  async deleteInternship(id: string): Promise<void> {
-    const result = await this.internshipsRepository.delete(id);
+  async deleteInternship(id: string, user: User): Promise<void> {
+    const result = await this.internshipsRepository.delete({ id, user });
     if (result.affected == 0) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
     }
@@ -69,8 +79,9 @@ export class InternshipsService {
     //status bölüm başkanı ve dekan tarafından update edilir!
     id: string,
     status: InternshipStatus,
+    user: User,
   ): Promise<Internship> {
-    const task = await this.getIntershipById(id);
+    const task = await this.getIntershipById(id, user);
     task.status = status;
     await this.internshipsRepository.save(task);
     return task;

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Internship {
@@ -31,4 +32,9 @@ export class Internship {
 
   @Column()
   status: string; //approved, rejected
+
+  @ManyToOne((_type) => User, (user) => user.internship, {
+    eager: false,
+  })
+  user: User;
 }
