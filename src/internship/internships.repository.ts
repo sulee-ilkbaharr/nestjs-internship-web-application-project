@@ -4,6 +4,7 @@ import { CreateInternshipDto } from './dto/create-internship.dto';
 import { InternshipStatus } from './internship-status.enum';
 import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { Internship } from './Internship.entity';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class InternshipRepository extends Repository<Internship> {
@@ -13,15 +14,17 @@ export class InternshipRepository extends Repository<Internship> {
 
   async getInterships(
     filterDto: GetInternshipFilterDto,
+    user: User,
   ): Promise<Internship[]> {
     const { status, search } = filterDto;
     const query = this.createQueryBuilder('intership');
+    query.where({ user });
     if (status) {
       query.andWhere('internship.status = :status', { status });
     }
     if (search) {
       query.andWhere(
-        'LOWER(intership.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search)',
+        '(LOWER(intership.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search))',
         { search: `%${search}%` },
       );
     }
@@ -30,16 +33,19 @@ export class InternshipRepository extends Repository<Internship> {
     return internships;
   }
 
-  async createInternship({
-    companyName,
-    departmentName,
-    internshipNo,
-    companyEmail,
-    companyPhone,
-    companyAdress,
-    internshipStartDate,
-    internshipFinishDate,
-  }: CreateInternshipDto): Promise<Internship> {
+  async createInternship(
+    {
+      companyName,
+      departmentName,
+      internshipNo,
+      companyEmail,
+      companyPhone,
+      companyAdress,
+      internshipStartDate,
+      internshipFinishDate,
+    }: CreateInternshipDto,
+    user: User,
+  ): Promise<Internship> {
     const internship = this.create({
       companyName,
       departmentName,
@@ -50,6 +56,7 @@ export class InternshipRepository extends Repository<Internship> {
       internshipFinishDate,
       internshipStartDate,
       status: InternshipStatus.IN_PROGRESS,
+      user,
     });
     await this.save(internship);
     return internship;
