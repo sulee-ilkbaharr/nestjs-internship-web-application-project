@@ -11,7 +11,7 @@ import { InternshipsModule } from './internship/internships.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Nilhan1!.',
+      password: 'Sule140400',
       database: 'internship-web-application',
       autoLoadEntities: true,
       synchronize: true,

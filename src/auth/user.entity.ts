@@ -1,5 +1,6 @@
 import { Internship } from 'src/internship/Internship.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserRole } from './user-role.enum';
 
 @Entity()
 export class User {
@@ -11,6 +12,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({ nullable: false })
+  role: UserRole; // 'student', 'department', 'academic dean', 'internship coordinator'
 
   @OneToMany((_type) => Internship, (internship) => internship.user, {
     eager: true,

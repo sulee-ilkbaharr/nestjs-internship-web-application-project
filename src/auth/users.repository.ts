@@ -15,7 +15,7 @@ export class UserRepository extends Repository<User> {
   }
 
   async createUser(authCredentialsDto: AuthCreadentialsDto): Promise<void> {
-    const { email, password } = authCredentialsDto;
+    const { email, password, role } = authCredentialsDto;
 
     //hash
     const salt = await bcrypt.genSalt();
@@ -24,7 +24,11 @@ export class UserRepository extends Repository<User> {
     //console.log('salt', salt);
     //console.log('hasshedPassword', hashedPassword);
 
-    const user = this.create({ email, password: hashedPassword });
+    const user = this.create({
+      email,
+      password: hashedPassword,
+      role,
+    });
 
     try {
       await this.save(user);
