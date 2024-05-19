@@ -9,10 +9,10 @@ import { AuthGuard } from '@nestjs/passport';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCreadentialsDto): Promise<void> {
-    return this.authService.signUp(authCredentialsDto);
-  }
+  // @Post('/signup')
+  // signUp(@Body() authCredentialsDto: AuthCreadentialsDto): Promise<void> {
+  //   return this.authService.signUp(authCredentialsDto);
+  // }
 
   @Post('/signin')
   signIn(

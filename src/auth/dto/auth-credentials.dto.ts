@@ -15,6 +15,6 @@ export class AuthCreadentialsDto {
   })
   password: string;
 
-  @IsString()
-  role: UserRole;
+  // @IsString()  SIGNUP 
+  // role: UserRole;
 }
