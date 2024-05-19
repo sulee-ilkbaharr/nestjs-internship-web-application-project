@@ -14,11 +14,24 @@ export class AuthController {
   //   return this.authService.signUp(authCredentialsDto);
   // }
 
+  // @Post('/signin')
+  // signIn(
+  //   @Body() authCredentialsDto: AuthCreadentialsDto,
+  // ): Promise<{ accessToken: string }> {
+  //   return this.authService.signIn(authCredentialsDto);
+  // },
+
   @Post('/signin')
-  signIn(
+  async signIn(
     @Body() authCredentialsDto: AuthCreadentialsDto,
-  ): Promise<{ accessToken: string }> {
-    return this.authService.signIn(authCredentialsDto);
+  ): Promise<{ accessToken: string; role: string }> {
+    const accessTokenResponse =
+      await this.authService.signIn(authCredentialsDto);
+    const user = await this.authService.getUserByEmail(
+      authCredentialsDto.email,
+    );
+    console.log('User role:', user.role); // Add this line to log the role
+    return { ...accessTokenResponse, role: user.role };
   }
 
   @Post('/test')
