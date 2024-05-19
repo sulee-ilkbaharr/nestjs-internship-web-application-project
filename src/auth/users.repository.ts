@@ -27,7 +27,7 @@ export class UserRepository extends Repository<User> {
     const user = this.create({
       email,
       password: hashedPassword,
-      // role,
+      //role,
       // SINGUP
     });
 
