@@ -15,6 +15,6 @@ export class AuthCreadentialsDto {
   password: string;
 
   // SIGNUP
-  // @IsString()
+  // @IsEnum(UserRole)
   // role: UserRole;
 }
