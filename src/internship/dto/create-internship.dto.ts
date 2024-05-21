@@ -1,33 +1,46 @@
-import { IsNotEmpty } from 'class-validator';
+
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateInternshipDto {
-  // @IsNotEmpty()
-  // title: string;
 
-  // // @IsNotEmpty()
-  // // description: string;
 
   @IsNotEmpty()
   companyName: string; //atez, ziraat...
 
+  // @Optional()
+  // otherCompanyName?: string;
+
   @IsNotEmpty()
   departmentName: string; //arge, manufacturing, sibersecurity, sotfdev.
 
-  @IsNotEmpty()
-  internshipNo: string; // 4190,4290,4390
+  // @Optional()
+  // otherDepartmentName?: string;
 
   @IsNotEmpty()
-  companyEmail: string; //atez@gmail.com
+  productionArea: string;
 
   @IsNotEmpty()
-  companyPhone: string; //...
+  companyPhoneNumber: string;
 
   @IsNotEmpty()
-  companyAdress: string;
+  companyEmailAddress: string;
 
   @IsNotEmpty()
-  internshipStartDate: string;
+  companyAddress: string;
+
+  // step2 için alınan veriler
 
   @IsNotEmpty()
-  internshipFinishDate: string;
+  internshipNumber: string;
+
+  @IsNotEmpty()
+  sameDepartmentGraduate: string;
+
+  @IsNotEmpty()
+  startDate: string;
+
+  @IsNotEmpty()
+  finishDate: string;
+
+
 }

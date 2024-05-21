@@ -39,6 +39,9 @@ export class InternshipsService {
   //   return found;
   // }
 
+
+
+  //create internship metotu ile öğrencinin internship oluşturulması sağlanır
   async createInternship(
     createInternshipDto: CreateInternshipDto,
     user: User,

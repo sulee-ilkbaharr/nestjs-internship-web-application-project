@@ -37,6 +37,7 @@ export class InternshipController {
     return this.internshipsService.getIntershipById(id, user);
   }
 
+  //BİRİNCİ VE İKİNCİ ADIM İÇİN ÖĞRENCİ BU METOT İLE INTERNSHİP OLUŞTURUR.
   @Post()
   createInternship(
     //STUDENT İNTERNSHİP OLUŞTURABİLİR.
