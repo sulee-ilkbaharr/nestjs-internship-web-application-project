@@ -1,9 +1,6 @@
-
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateInternshipDto {
-
-
   @IsNotEmpty()
   companyName: string; //atez, ziraat... .// foreign key
 
@@ -42,8 +39,5 @@ export class CreateInternshipDto {
   @IsNotEmpty()
   finishDate: string;
 
-
-   // corresponding person -company 
-
-
+  // corresponding person -company
 }
