@@ -16,8 +16,9 @@ export class User {
   @Column({ nullable: false })
   role: UserRole; // 'student', 'department', 'academic dean', 'internship coordinator'
 
+  //
   @OneToMany((_type) => Internship, (internship) => internship.user, {
     eager: true,
   })
-  internship: Internship[];
+  internship: Internship[]; //her bir user bir tane internshipe sahip olabilir.
 }

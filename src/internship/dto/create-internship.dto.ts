@@ -2,30 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateInternshipDto {
   @IsNotEmpty()
-  companyName: string; //atez, ziraat... .// foreign key
-
-  // @Optional()
-  // otherCompanyName?: string;
-
-  @IsNotEmpty()
   departmentName: string; //arge, manufacturing, sibersecurity, sotfdev.
-
-  // @Optional()
-  // otherDepartmentName?: string;
-
-  @IsNotEmpty()
-  productionArea: string;
-
-  @IsNotEmpty()
-  companyPhoneNumber: string;
-
-  @IsNotEmpty()
-  companyEmailAddress: string;
-
-  @IsNotEmpty()
-  companyAddress: string;
-
-  // step2 için alınan veriler
 
   @IsNotEmpty()
   internshipNumber: string;
@@ -39,5 +16,10 @@ export class CreateInternshipDto {
   @IsNotEmpty()
   finishDate: string;
 
+  @IsNotEmpty()
+  internshipDays: string;
+
+  @IsNotEmpty()
+  correspondingPerson: string;
   // corresponding person -company
 }

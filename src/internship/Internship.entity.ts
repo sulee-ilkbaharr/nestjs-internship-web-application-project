@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { InternshipStatus } from './internship-status.enum';
+import { Company } from 'src/company/company.entity';
 
 @Entity()
 export class Internship extends BaseEntity {
@@ -14,28 +15,7 @@ export class Internship extends BaseEntity {
   id: string;
 
   @Column()
-  companyName: string; 
-
-  // @Column({ nullable: true })
-  // otherCompanyName: string;
-
-  @Column()
-  departmentName: string; 
-
-  // @Column({ nullable: true })
-  // otherDepartmentName: string;
-
-  @Column()
-  productionArea: string;
-
-  @Column()
-  companyPhoneNumber: string;
-
-  @Column()
-  companyEmailAddress: string;
-
-  @Column()
-  companyAddress: string;
+  departmentName: string;
 
   @Column()
   internshipNumber: string;
@@ -49,57 +29,24 @@ export class Internship extends BaseEntity {
   @Column()
   finishDate: string;
 
-  // @Column()
-  // dates: string;
+  @Column()
+  correspondingPerson: string;
 
   @Column()
   status: InternshipStatus;
+
+  @Column()
+  internshipDays: string;
+
   @ManyToOne((_type) => User, (user) => user.internship, {
     eager: false,
   })
   user: User;
+
+  //bir internshipin bir tane companye sahip olur ancak companynin birden fazla internship i olabilir
+
+  @ManyToOne((_type) => Company, (company) => company.internships, {
+    eager: false,
+  })
+  company: Company;
 }
-
-// import { User } from 'src/auth/user.entity';
-// import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
-// @Entity()
-// export class Internship {
-
-//   @PrimaryGeneratedColumn('uuid')
-//   id: string; //
-
-//   @Column()
-//   companyName: string; //atez, ziraat...
-
-//   @Column()
-//   departmentName: string; //arge, manufacturing, sibersecurity, sotfdev.
-
-//   @Column()
-//   internshipNo: string; // 4190,4290,4390
-
-//   @Column()
-//   companyEmail: string; //atez@gmail.com
-
-//   @Column()
-//   companyPhone: string; //...
-
-//   @Column()
-//   companyAdress: string;
-
-//   @Column()
-//   internshipStartDate: string;
-
-//   @Column()
-//   internshipFinishDate: string;
-
-//   @Column()
-//   status: string; //approved, rejected
-// @Column()
-// status: InternshipStatus;
-// @ManyToOne((_type) => User, (user) => user.internship, {
-//   eager: false,
-// }
-// user: User;
-
-// }

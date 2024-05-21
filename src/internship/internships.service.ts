@@ -6,6 +6,7 @@ import { InternshipRepository } from './internships.repository';
 import { Internship } from './Internship.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { User } from 'src/auth/user.entity';
+import { Company } from 'src/company/company.entity';
 
 @Injectable()
 export class InternshipsService {
@@ -39,38 +40,18 @@ export class InternshipsService {
   //   return found;
   // }
 
-
-
   //create internship metotu ile öğrencinin internship oluşturulması sağlanır
   async createInternship(
     createInternshipDto: CreateInternshipDto,
     user: User,
+    company: Company,
   ): Promise<Internship> {
     return this.internshipsRepository.createInternship(
       createInternshipDto,
       user,
+      company,
     );
-    // const { title, description } = createTaskDto;
-    // const task = this.tasksRepository.create({
-    //   title,
-    //   description,
-    //   status: TaskStatus.OPEN,
-    // });
-    // await this.tasksRepository.save(task);
-    // return task;
   }
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   /// createTaskDto , parametresinin içinden parametre aldığı için const içinde süslü parantesled
-  //   const { title, description } = createTaskDto;
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
-  //   this.tasks.push(task);
-  //   return task;
-  // }
   async deleteInternship(id: string, user: User): Promise<void> {
     const result = await this.internshipsRepository.delete({ id, user });
     if (result.affected == 0) {

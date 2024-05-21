@@ -1,44 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
+import { CompanyRepository } from './company.repository';
+import { GetCompanyFilterDto } from './dto/get-company-filter.dto';
+import { Company } from './company.entity';
+import { CreateCompanyDto } from './dto/create-company.dto';
+import { User } from 'src/auth/user.entity';
+// import * as fs from 'fs';
+// import * as path from 'path';
 
 @Injectable()
 export class CompanyService {
-  private readonly filePath = path.join(__dirname, '../../companyNames.json');
+  constructor(private readonly companyRepository: CompanyRepository) {}
 
-  async getCompanyNames(): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.filePath, 'utf8', (err, data) => {
-        if (err) {
-          reject('Error reading company names.');
-        } else {
-          resolve(JSON.parse(data));
-        }
-      });
-    });
+  getCompanies(filterDto: GetCompanyFilterDto, user: User): Promise<Company[]> {
+    return this.companyRepository.getCompanies(filterDto, user);
   }
 
-  async addCompanyName(name: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.filePath, 'utf8', (err, data) => {
-        if (err) {
-          reject('Error reading company names.');
-        } else {
-          let companyNames = JSON.parse(data);
-          if (!companyNames.includes(name)) {
-            companyNames.push(name);
-            fs.writeFile(this.filePath, JSON.stringify(companyNames), (err) => {
-              if (err) {
-                reject('Error saving company name.');
-              } else {
-                resolve('Company name added.');
-              }
-            });
-          } else {
-            resolve('Company name already exists.');
-          }
-        }
-      });
-    });
+  async createCompany(
+    createCompanyDto: CreateCompanyDto,
+
+    // internship: Internship,
+  ): Promise<Company> {
+    return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
   }
 }

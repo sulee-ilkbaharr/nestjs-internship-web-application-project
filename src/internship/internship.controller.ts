@@ -17,6 +17,7 @@ import { UpdateInternshipStatusDto } from './dto/update-internship-status.dto';
 import { InternshipsService } from './internships.service';
 import { GetUser } from 'src/auth/get-user.decorater';
 import { User } from 'src/auth/user.entity';
+import { Company } from 'src/company/company.entity';
 
 @Controller('internship')
 @UseGuards(AuthGuard()) //Giriş yapıp yapmamdığını kontrol eder!!!!önemliiii
@@ -43,8 +44,13 @@ export class InternshipController {
     //STUDENT İNTERNSHİP OLUŞTURABİLİR.
     @Body() createInternshipDto: CreateInternshipDto,
     @GetUser() user: User,
+    company: Company,
   ): Promise<Internship> {
-    return this.internshipsService.createInternship(createInternshipDto, user);
+    return this.internshipsService.createInternship(
+      createInternshipDto,
+      user,
+      company,
+    );
   }
 
   @Delete('/:id')

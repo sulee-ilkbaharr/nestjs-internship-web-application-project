@@ -5,6 +5,7 @@ import { InternshipStatus } from './internship-status.enum';
 import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { Internship } from './Internship.entity';
 import { User } from 'src/auth/user.entity';
+import { Company } from 'src/company/company.entity';
 
 @Injectable()
 export class InternshipRepository extends Repository<Internship> {
@@ -23,7 +24,7 @@ export class InternshipRepository extends Repository<Internship> {
       query.andWhere('internship.status = :status', { status });
     }
     if (search) {
-      query.andWhere(
+      query.andWhere( 
         '(LOWER(intership.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search))',
         { search: `%${search}%` },
       );
@@ -35,46 +36,28 @@ export class InternshipRepository extends Repository<Internship> {
 
   async createInternship(
     {
-      companyName,
-      // otherCompanyName,
       departmentName,
-      // otherDepartmentName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
       internshipNumber,
       sameDepartmentGraduate, // boolean olarak alınabilir.
       startDate,
       finishDate,
+      internshipDays,
+      correspondingPerson,
     }: CreateInternshipDto,
     user: User,
+    company: Company,
   ): Promise<Internship> {
     const internship = this.create({
-      companyName,
-      // otherCompanyName,
       departmentName,
-
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
       internshipNumber,
       sameDepartmentGraduate,
       startDate,
       finishDate,
+      internshipDays,
+      correspondingPerson,
       status: InternshipStatus.PREPARING,
       user,
-      // companyName,
-      // departmentName,
-      // internshipNo,
-      // companyEmail,
-      // companyPhone,
-      // companyAdress,
-      // internshipFinishDate,
-      // internshipStartDate,
-      // status: InternshipStatus.IN_PROGRESS,
-      // user,
+      company,
     });
     await this.save(internship);
     return internship;
