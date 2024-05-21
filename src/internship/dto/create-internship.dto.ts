@@ -5,7 +5,7 @@ export class CreateInternshipDto {
 
 
   @IsNotEmpty()
-  companyName: string; //atez, ziraat...
+  companyName: string; //atez, ziraat... .// foreign key
 
   // @Optional()
   // otherCompanyName?: string;
@@ -41,6 +41,9 @@ export class CreateInternshipDto {
 
   @IsNotEmpty()
   finishDate: string;
+
+
+   // corresponding person -company 
 
 
 }
