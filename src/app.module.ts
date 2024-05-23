@@ -14,7 +14,7 @@ import { Company } from './company/company.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Sule140400',
+      password: 'Nilhan1!.',
       database: 'internship-web-application',
       autoLoadEntities: true,
       entities: [User, Internship, Company],

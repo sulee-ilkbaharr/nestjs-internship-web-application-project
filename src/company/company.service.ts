@@ -15,13 +15,13 @@ export class CompanyService {
     return this.companyRepository.getCompanies(filterDto, user);
   }
 
-  // async createCompany(
-  //   createCompanyDto: CreateCompanyDto,
+  async createCompany(
+    createCompanyDto: CreateCompanyDto,
 
-  //   // internship: Internship,
-  // ): Promise<Company> {
-  //   return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
-  // }
+    // internship: Internship,
+  ): Promise<Company> {
+    return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
+  }
 
   async createOrFindCompany(
     createCompanyDto: CreateCompanyDto, // company bilgileri

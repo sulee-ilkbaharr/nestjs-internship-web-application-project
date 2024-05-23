@@ -1,9 +1,10 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { GetCompanyFilterDto } from './dto/get-company-filter.dto';
 import { Company } from './company.entity';
 import { GetUser } from 'src/auth/get-user.decorater';
 import { User } from 'src/auth/user.entity';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Controller('company')
 export class CompanyController {
@@ -16,8 +17,8 @@ export class CompanyController {
   ): Promise<Company[]> {
     return this.companyService.getCompanies(filterDto, user);
   }
-  // @Post()
-  // createCompany(@Body() createCompanyDto: CreateCompanyDto): Promise<Company> {
-  //   return this.companyService.createCompany(createCompanyDto);
-  // }
+  @Post()
+  createCompany(@Body() createCompanyDto: CreateCompanyDto): Promise<Company> {
+    return this.companyService.createCompany(createCompanyDto);
+  }
 }
