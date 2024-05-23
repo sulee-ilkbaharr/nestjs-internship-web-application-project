@@ -11,25 +11,25 @@ export class CompanyRepository extends Repository<Company> {
     super(Company, datasource.createEntityManager());
   }
 
-  async createCompany(createCompanyDto: CreateCompanyDto): Promise<Company> {
-    const {
-      companyName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
-    } = createCompanyDto;
-    const company = this.create({
-      companyName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
-    });
+  // async createCompany(createCompanyDto: CreateCompanyDto): Promise<Company> {
+  //   const {
+  //     companyName,
+  //     productionArea,
+  //     companyPhoneNumber,
+  //     companyEmailAddress,
+  //     companyAddress,
+  //   } = createCompanyDto;
+  //   const company = this.create({
+  //     companyName,
+  //     productionArea,
+  //     companyPhoneNumber,
+  //     companyEmailAddress,
+  //     companyAddress,
+  //   });
 
-    await this.save(company);
-    return company;
-  }
+  //   await this.save(company);
+  //   return company;
+  // }
 
   async getCompanies(
     filterDto: GetCompanyFilterDto,
@@ -48,21 +48,22 @@ export class CompanyRepository extends Repository<Company> {
     return company;
   }
 
-  // async createCompany({
-  //   companyName,
-  //   productionArea,
-  //   companyPhoneNumber,
-  //   companyEmailAddress,
-  //   companyAddress,
-  // }: CreateCompanyDto): Promise<Company> {
-  //   const company = this.create({
-  //     companyName,
-  //     productionArea,
-  //     companyPhoneNumber,
-  //     companyEmailAddress,
-  //     companyAddress,
-  //   });
-  //   await this.save(company);
-  //   return company;
-  // }
+  async createCompany(createCompanyDto: CreateCompanyDto): Promise<Company> {
+    const {
+      companyName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+    } = createCompanyDto;
+    const company = this.create({
+      companyName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+    });
+    await this.save(company);
+    return company;
+  }
 }

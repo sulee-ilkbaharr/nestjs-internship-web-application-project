@@ -6,17 +6,12 @@ import { InternshipRepository } from './internships.repository';
 import { Internship } from './Internship.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { User } from 'src/auth/user.entity';
-import { CompanyRepository } from 'src/company/company.repository';
-import { Company } from 'src/company/company.entity';
-import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { CompanyService } from 'src/company/company.service';
-import { runInThisContext } from 'vm';
 
 @Injectable()
 export class InternshipsService {
   constructor(
     private readonly internshipsRepository: InternshipRepository,
-    private readonly companyRepository: CompanyRepository, //hata burdan kaynaklanıyor olabilir
     private companyService: CompanyService,
   ) {}
 
@@ -136,8 +131,7 @@ export class InternshipsService {
       companyAddress,
     };
 
-    const company =
-      await this.companyService.createOrFindCompany(createCompanyDto);
+    const company = await this.companyService.createCompany(createCompanyDto);
 
     const internship = {
       companyName,

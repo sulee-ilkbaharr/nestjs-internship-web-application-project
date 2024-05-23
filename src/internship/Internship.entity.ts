@@ -16,7 +16,17 @@ export class Internship extends BaseEntity {
 
   //companyName konusuumnInternshinda kafalar karışık
 
+  @Column()
+  companyName: string;
+  @Column()
+  productionArea: string;
+  @Column()
+  companyPhoneNumber: string;
+  @Column()
+  companyAddress: string;
 
+  @Column()
+  companyEmailAddress: string;
 
   @Column()
   departmentName: string;
