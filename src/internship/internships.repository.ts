@@ -1,11 +1,8 @@
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { CreateInternshipDto } from './dto/create-internship.dto';
-import { InternshipStatus } from './internship-status.enum';
 import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { Internship } from './Internship.entity';
 import { User } from 'src/auth/user.entity';
-import { Company } from 'src/company/company.entity';
 
 @Injectable()
 export class InternshipRepository extends Repository<Internship> {
@@ -34,32 +31,32 @@ export class InternshipRepository extends Repository<Internship> {
     return internships;
   }
 
-  async createInternship(
-    {
-      departmentName,
-      internshipNumber,
-      sameDepartmentGraduate, // boolean olarak alınabilir.
-      startDate,
-      finishDate,
-      internshipDays,
-      correspondingPerson,
-    }: CreateInternshipDto,
-    user: User,
-    company: Company,
-  ): Promise<Internship> {
-    const internship = this.create({
-      departmentName,
-      internshipNumber,
-      sameDepartmentGraduate,
-      startDate,
-      finishDate,
-      internshipDays,
-      correspondingPerson,
-      status: InternshipStatus.PREPARING,
-      user,
-      company,
-    });
-    await this.save(internship);
-    return internship;
-  }
+  // async createInternship(
+  //   {
+  //     departmentName,
+  //     internshipNumber,
+  //     sameDepartmentGraduate, // boolean olarak alınabilir.
+  //     startDate,
+  //     finishDate,
+  //     internshipDays,
+  //     correspondingPerson,
+  //   }: CreateInternshipDto,
+  //   user: User,
+  //   company: Company,
+  // ): Promise<Internship> {
+  //   const internship = this.create({
+  //     departmentName,
+  //     internshipNumber,
+  //     sameDepartmentGraduate,
+  //     startDate,
+  //     finishDate,
+  //     internshipDays,
+  //     correspondingPerson,
+  //     status: InternshipStatus.PREPARING,
+  //     user,
+  //     company,
+  //   });
+  //   await this.save(internship);
+  //   return internship;
+  // }
 }

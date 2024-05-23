@@ -1,14 +1,34 @@
 import { DataSource, Repository } from 'typeorm';
 import { Company } from './company.entity';
-import { CreateCompanyDto } from './dto/create-company.dto';
 import { GetCompanyFilterDto } from './dto/get-company-filter.dto';
 import { User } from 'src/auth/user.entity';
 import { Injectable } from '@nestjs/common';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Injectable()
 export class CompanyRepository extends Repository<Company> {
   constructor(private datasource: DataSource) {
     super(Company, datasource.createEntityManager());
+  }
+
+  async createCompany(createCompanyDto: CreateCompanyDto): Promise<Company> {
+    const {
+      companyName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+    } = createCompanyDto;
+    const company = this.create({
+      companyName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+    });
+
+    await this.save(company);
+    return company;
   }
 
   async getCompanies(
@@ -28,21 +48,21 @@ export class CompanyRepository extends Repository<Company> {
     return company;
   }
 
-  async createCompany({
-    companyName,
-    productionArea,
-    companyPhoneNumber,
-    companyEmailAddress,
-    companyAddress,
-  }: CreateCompanyDto): Promise<Company> {
-    const company = this.create({
-      companyName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
-    });
-    await this.save(company);
-    return company;
-  }
+  // async createCompany({
+  //   companyName,
+  //   productionArea,
+  //   companyPhoneNumber,
+  //   companyEmailAddress,
+  //   companyAddress,
+  // }: CreateCompanyDto): Promise<Company> {
+  //   const company = this.create({
+  //     companyName,
+  //     productionArea,
+  //     companyPhoneNumber,
+  //     companyEmailAddress,
+  //     companyAddress,
+  //   });
+  //   await this.save(company);
+  //   return company;
+  // }
 }

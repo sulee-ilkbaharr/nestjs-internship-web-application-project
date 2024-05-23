@@ -3,12 +3,17 @@ import { InternshipController } from './internship.controller';
 import { InternshipsService } from './internships.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
-import { Internship } from './Internship.entity';
+import { CompanyModule } from 'src/company/company.module';
+import { CompanyRepository } from 'src/company/company.repository';
 import { InternshipRepository } from './internships.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Internship]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([InternshipRepository, CompanyRepository]),
+    AuthModule,
+    CompanyModule,
+  ],
   controllers: [InternshipController],
-  providers: [InternshipRepository, InternshipsService],
+  providers: [InternshipsService],
 })
 export class InternshipsModule {}

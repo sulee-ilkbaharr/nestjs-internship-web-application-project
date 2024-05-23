@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -17,12 +18,17 @@ import { UpdateInternshipStatusDto } from './dto/update-internship-status.dto';
 import { InternshipsService } from './internships.service';
 import { GetUser } from 'src/auth/get-user.decorater';
 import { User } from 'src/auth/user.entity';
-import { Company } from 'src/company/company.entity';
+import { CompanyService } from 'src/company/company.service';
 
 @Controller('internship')
 @UseGuards(AuthGuard()) //Giriş yapıp yapmamdığını kontrol eder!!!!önemliiii
 export class InternshipController {
-  constructor(private internshipsService: InternshipsService) {}
+  private readonly logger = new Logger(InternshipController.name);
+
+  constructor(
+    private internshipsService: InternshipsService,
+    private companyService: CompanyService,
+  ) {}
 
   @Get()
   getInternships(
@@ -39,18 +45,25 @@ export class InternshipController {
   }
 
   //BİRİNCİ VE İKİNCİ ADIM İÇİN ÖĞRENCİ BU METOT İLE INTERNSHİP OLUŞTURUR.
+  // @Post()
+  // createInternship(
+  //   //STUDENT İNTERNSHİP OLUŞTURABİLİR.
+  //   @Body() createInternshipDto: CreateInternshipDto,
+  //   @GetUser() user: User,
+  //   @GetCompany() company: Company,
+  // ): Promise<Internship> {
+  //   return this.internshipsService.createInternship(
+  //     createInternshipDto,
+  //     user,
+  //     company,
+  //   );
+  // }
   @Post()
-  createInternship(
-    //STUDENT İNTERNSHİP OLUŞTURABİLİR.
-    @Body() createInternshipDto: CreateInternshipDto,
+  async createInternship(
+    @Body() createInternshipDto: CreateInternshipDto, //company bilgileiyle birlikte burada verileri create ederiz
     @GetUser() user: User,
-    company: Company,
   ): Promise<Internship> {
-    return this.internshipsService.createInternship(
-      createInternshipDto,
-      user,
-      company,
-    );
+    return this.internshipsService.createInternship(createInternshipDto, user);
   }
 
   @Delete('/:id')

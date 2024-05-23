@@ -9,7 +9,7 @@ import {
 
 @Entity()
 export class Company extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
@@ -28,7 +28,7 @@ export class Company extends BaseEntity {
   companyAddress: string;
 
   @OneToMany((_type) => Internship, (internship) => internship.company, {
-    eager: true,
+    eager: false,
   })
   internships: Internship[];
 

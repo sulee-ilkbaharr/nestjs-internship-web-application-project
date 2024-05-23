@@ -3,10 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { InternshipsModule } from './internship/internships.module';
 import { CompanyModule } from './company/company.module';
+import { User } from './auth/user.entity';
+import { Internship } from './internship/Internship.entity';
+import { Company } from './company/company.entity';
 
 @Module({
   imports: [
-    InternshipsModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -15,9 +17,11 @@ import { CompanyModule } from './company/company.module';
       password: 'Sule140400',
       database: 'internship-web-application',
       autoLoadEntities: true,
+      entities: [User, Internship, Company],
       synchronize: true,
     }),
     AuthModule,
+    InternshipsModule,
     CompanyModule,
   ],
 })
