@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { Internship } from './Internship.entity';
 import { User } from 'src/auth/user.entity';
+import { InternshipStatus } from './internship-status.enum';
+import { CreateInternshipDto } from './dto/create-internship.dto';
 
 @Injectable()
 export class InternshipRepository extends Repository<Internship> {
@@ -21,7 +23,7 @@ export class InternshipRepository extends Repository<Internship> {
       query.andWhere('internship.status = :status', { status });
     }
     if (search) {
-      query.andWhere( 
+      query.andWhere(
         '(LOWER(intership.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search))',
         { search: `%${search}%` },
       );
@@ -31,32 +33,40 @@ export class InternshipRepository extends Repository<Internship> {
     return internships;
   }
 
-  // async createInternship(
-  //   {
-  //     departmentName,
-  //     internshipNumber,
-  //     sameDepartmentGraduate, // boolean olarak alınabilir.
-  //     startDate,
-  //     finishDate,
-  //     internshipDays,
-  //     correspondingPerson,
-  //   }: CreateInternshipDto,
-  //   user: User,
-  //   company: Company,
-  // ): Promise<Internship> {
-  //   const internship = this.create({
-  //     departmentName,
-  //     internshipNumber,
-  //     sameDepartmentGraduate,
-  //     startDate,
-  //     finishDate,
-  //     internshipDays,
-  //     correspondingPerson,
-  //     status: InternshipStatus.PREPARING,
-  //     user,
-  //     company,
-  //   });
-  //   await this.save(internship);
-  //   return internship;
-  // }
+  async createInternship(
+    {
+      companyName,
+      departmentName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+      internshipNumber,
+      sameDepartmentGraduate,
+      startDate,
+      finishDate,
+      internshipDays,
+      correspondingPerson,
+    }: CreateInternshipDto,
+    user: User,
+  ): Promise<Internship> {
+    const internship = this.create({
+      companyName,
+      departmentName,
+      productionArea,
+      companyPhoneNumber,
+      companyEmailAddress,
+      companyAddress,
+      internshipNumber,
+      sameDepartmentGraduate,
+      startDate,
+      finishDate,
+      internshipDays,
+      correspondingPerson,
+      status: InternshipStatus.PREPARING,
+      user,
+    });
+    await this.save(internship);
+    return internship;
+  }
 }

@@ -15,29 +15,31 @@ export class CompanyService {
     return this.companyRepository.getCompanies(filterDto, user);
   }
 
-  // async createCompany(
-  //   createCompanyDto: CreateCompanyDto,
+  async createCompany(
+    createCompanyDto: CreateCompanyDto,
 
-  //   // internship: Internship,
-  // ): Promise<Company> {
-  //   return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
-  // }
-
-  async createOrFindCompany(
-    createCompanyDto: CreateCompanyDto, // company bilgileri
+    // internship: Internship,
   ): Promise<Company> {
-    console.log(createCompanyDto);
-    const { companyName } = createCompanyDto;
-    let company = await this.companyRepository.findOne({
-      where: { companyName },
-      // companyName: createCompanyDto.companyName,
-    });
+    console.log(Company);
 
-    if (!company) {
-      company = await this.companyRepository.save(createCompanyDto);
-      // await this.companyRepository.save(company);
-    }
-
-    return company;
+    return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
   }
+
+  // async createOrFindCompany(
+  //   createCompanyDto: CreateCompanyDto, // company bilgileri
+  // ): Promise<Company> {
+  //   console.log(createCompanyDto);
+  //   const { companyName } = createCompanyDto;
+  //   let company = await this.companyRepository.findOne({
+  //     where: { companyName },
+  //     // companyName: createCompanyDto.companyName,
+  //   });
+
+  //   if (!company) {
+  //     company = await this.companyRepository.save(createCompanyDto);
+  //     // await this.companyRepository.save(company);
+  //   }
+
+  //   return company;
+  // }
 }
