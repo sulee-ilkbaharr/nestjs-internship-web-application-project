@@ -23,21 +23,21 @@ export class CompanyService {
     return this.companyRepository.createCompany(createCompanyDto); ////user mı yoksa internship mi create eder?
   }
 
-  // async createOrFindCompany(
-  //   createCompanyDto: CreateCompanyDto, // company bilgileri
-  // ): Promise<Company> {
-  //   console.log(createCompanyDto);
-  //   const { companyName } = createCompanyDto;
-  //   let company = await this.companyRepository.findOne({
-  //     where: { companyName },
-  //     // companyName: createCompanyDto.companyName,
-  //   });
+  async createOrFindCompany(
+    createCompanyDto: CreateCompanyDto, // company bilgileri
+  ): Promise<Company> {
+    console.log(createCompanyDto);
+    const { companyName } = createCompanyDto;
+    let company = await this.companyRepository.findOne({
+      where: { companyName },
+      // companyName: createCompanyDto.companyName,
+    });
 
-  //   if (!company) {
-  //     company = await this.companyRepository.save(createCompanyDto);
-  //     // await this.companyRepository.save(company);
-  //   }
+    if (!company) {
+      company = await this.companyRepository.createCompany(createCompanyDto);
+      // await this.companyRepository.save(company);
+    }
 
-  //   return company;
-  // }
+    return company;
+  }
 }

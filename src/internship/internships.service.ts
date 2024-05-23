@@ -131,7 +131,7 @@ export class InternshipsService {
       companyAddress,
     };
 
-    const company = await this.companyService.createCompany(createCompanyDto);
+    const company = await this.companyService.createOrFindCompany(createCompanyDto);
 
     const internship = {
       companyName,

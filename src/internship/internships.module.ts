@@ -11,6 +11,6 @@ import { InternshipRepository } from './internships.repository';
   imports: [TypeOrmModule.forFeature([Internship]), AuthModule, CompanyModule],
   controllers: [InternshipController],
   providers: [InternshipsService, InternshipRepository],
-  exports: [InternshipsService],
+  // exports: [InternshipsService],
 })
 export class InternshipsModule {}
