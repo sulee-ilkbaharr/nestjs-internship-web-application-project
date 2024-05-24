@@ -24,30 +24,6 @@ export class User {
   @Column({ nullable: false })
   role: UserRole; // 'student', 'department', 'academic dean', 'internship coordinator'
 
-  @Column()
-  IDno: string;
-
-  @Column()
-  studentName: string;
-
-  @Column()
-  studentSurname: string;
-
-  @Column()
-  studentId: string;
-
-  @Column()
-  studentPhoneNumber: string;
-
-  @Column()
-  studentAddress: string;
-
-  @Column()
-  departmentName: string;
-
-  @Column()
-  facultyName: string;
-
   @OneToOne(() => Student, (student) => student.user, {
     cascade: true,
     eager: true,

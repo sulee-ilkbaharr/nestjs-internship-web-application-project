@@ -14,14 +14,6 @@ export class UserRepository extends Repository<User> {
     email,
     password,
     role,
-    IDno,
-    studentName,
-    studentSurname,
-    studentId,
-    studentPhoneNumber,
-    studentAddress,
-    departmentName,
-    facultyName,
   }: AuthCreadentialsDto): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -30,14 +22,6 @@ export class UserRepository extends Repository<User> {
       email,
       password: hashedPassword,
       role,
-      IDno,
-      studentName,
-      studentSurname,
-      studentId,
-      studentPhoneNumber,
-      studentAddress,
-      departmentName,
-      facultyName,
     });
     //hash
 

@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
+import { UserRole } from 'src/auth/user-role.enum';
 
 export class CreateStudentDto {
   @IsNotEmpty()
@@ -24,4 +25,5 @@ export class CreateStudentDto {
 
   @IsNotEmpty()
   facultyName: string;
+
 }
