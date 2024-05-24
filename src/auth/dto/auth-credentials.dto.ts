@@ -1,6 +1,7 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -28,19 +29,22 @@ export class AuthCreadentialsDto {
   @IsNotEmpty()
   IDno: string;
   @IsNotEmpty()
-  studentName: string;
+  name: string;
   @IsNotEmpty()
-  studentSurname: string;
-  @IsNotEmpty()
-  studentId: string;
-  @IsNotEmpty()
-  studentPhoneNumber: string;
-  @IsNotEmpty()
-  studentAddress: string;
+  surname: string;
+  @IsOptional()
+  studentId?: string;
+  @IsOptional()
+  studentPhoneNumber?: string;
+  @IsOptional()
+  studentAddress?: string;
   @IsNotEmpty()
   departmentName: string;
   @IsNotEmpty()
   facultyName: string;
+
+  @IsOptional()
+  departmentId?: string;
 
   // SIGNUP
   // @IsEnum(UserRole)

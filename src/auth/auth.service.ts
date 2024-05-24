@@ -7,6 +7,8 @@ import { JwtPayload } from './jwt-payload.interface';
 import { User } from './user.entity';
 import { StudentService } from 'src/student/student.service';
 import { UserRole } from './user-role.enum';
+import { DepartmentService } from 'src/department/department.service';
+import { AuthSigninDto } from './dto/auth-signin.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +16,7 @@ export class AuthService {
     private readonly usersRepository: UserRepository,
     private jwtService: JwtService,
     private studentService: StudentService,
+    private departmentService: DepartmentService,
   ) {}
 
   async signUp(authCredentialsDto: AuthCreadentialsDto): Promise<User> {
@@ -22,13 +25,14 @@ export class AuthService {
       password,
       role,
       IDno,
-      studentName,
-      studentSurname,
+      name,
+      surname,
       studentId,
       studentPhoneNumber,
       studentAddress,
       departmentName,
       facultyName,
+      departmentId,
     } = authCredentialsDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -42,8 +46,8 @@ export class AuthService {
     if (role === UserRole.STUDENT) {
       const student = await this.studentService.createStudent({
         IDno,
-        studentName,
-        studentSurname,
+        name,
+        surname,
         studentId,
         studentPhoneNumber,
         studentAddress,
@@ -51,6 +55,16 @@ export class AuthService {
         facultyName,
       });
       user.student = student;
+    } else if (role == UserRole.DEPARTMENT) {
+      const deparment = await this.departmentService.createDeparment({
+        IDno,
+        name,
+        surname,
+        departmentName,
+        facultyName,
+        departmentId,
+      });
+      user.deparment = deparment;
     }
 
     return this.usersRepository.save(user);
@@ -120,10 +134,8 @@ export class AuthService {
   //   }
   // }
 
-  async signIn(
-    authCredentialsDto: AuthCreadentialsDto,
-  ): Promise<{ accessToken: string }> {
-    const { email, password } = authCredentialsDto;
+  async signIn(authSigninDto: AuthSigninDto): Promise<{ accessToken: string }> {
+    const { email, password } = authSigninDto;
     const user = await this.usersRepository.findOne({ where: { email } });
 
     if (user && (await bcrypt.compare(password, user.password))) {

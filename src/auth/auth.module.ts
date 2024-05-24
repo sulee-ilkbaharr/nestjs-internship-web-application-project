@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { StudentModule } from 'src/student/student.module';
+import { DepartmentModule } from 'src/department/department.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StudentModule } from 'src/student/student.module';
     }),
     TypeOrmModule.forFeature([User]),
     StudentModule,
+    DepartmentModule,
   ],
   providers: [AuthService, UserRepository, JwtStrategy],
   controllers: [AuthController],

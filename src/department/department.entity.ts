@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Student extends BaseEntity {
+export class Department extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -22,13 +22,7 @@ export class Student extends BaseEntity {
   surname: string;
 
   @Column()
-  studentId: string;
-
-  @Column()
-  studentPhoneNumber: string;
-
-  @Column()
-  studentAddress: string;
+  departmentId: string;
 
   @Column()
   departmentName: string;

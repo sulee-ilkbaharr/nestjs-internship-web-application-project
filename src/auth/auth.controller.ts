@@ -4,6 +4,7 @@ import { AuthCreadentialsDto } from './dto/auth-credentials.dto';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from './user.entity';
+import { AuthSigninDto } from './dto/auth-signin.dto';
 //import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
@@ -25,13 +26,10 @@ export class AuthController {
 
   @Post('/signin')
   async signIn(
-    @Body() authCredentialsDto: AuthCreadentialsDto,
+    @Body() authSigninDto: AuthSigninDto,
   ): Promise<{ accessToken: string; role: string }> {
-    const accessTokenResponse =
-      await this.authService.signIn(authCredentialsDto);
-    const user = await this.authService.getUserByEmail(
-      authCredentialsDto.email,
-    );
+    const accessTokenResponse = await this.authService.signIn(authSigninDto);
+    const user = await this.authService.getUserByEmail(authSigninDto.email);
     console.log('User role:', user.role); // Add this line to log the role
     return { ...accessTokenResponse, role: user.role };
   }

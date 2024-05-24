@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import { Student } from 'src/student/student.entity';
+import { Department } from 'src/department/department.entity';
 
 @Entity()
 export class User {
@@ -30,6 +31,13 @@ export class User {
   })
   @JoinColumn()
   student: Student;
+
+  @OneToOne(() => Department, (deparment) => deparment.user, {
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn()
+  deparment: Department;
 
   @OneToMany(() => Internship, (internship) => internship.user, {
     eager: true,

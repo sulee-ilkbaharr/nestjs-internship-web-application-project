@@ -12,8 +12,8 @@ export class StudentRepository extends Repository<Student> {
   async createStudent(createStudentDto: CreateStudentDto): Promise<Student> {
     const {
       IDno,
-      studentName,
-      studentSurname,
+      name,
+      surname,
       studentId,
       studentPhoneNumber,
       studentAddress,
@@ -22,8 +22,8 @@ export class StudentRepository extends Repository<Student> {
     } = createStudentDto;
     const student = this.create({
       IDno,
-      studentName,
-      studentSurname,
+      name,
+      surname,
       studentId,
       studentPhoneNumber,
       studentAddress,
