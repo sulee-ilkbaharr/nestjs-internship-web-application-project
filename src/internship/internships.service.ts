@@ -35,75 +35,12 @@ export class InternshipsService {
     return found;
   }
 
-  //ilk versiyon
-  // async createInternship(
-  //   createInternshipDto: CreateInternshipDto,
-  //   user: User,
-  // ): Promise<Internship> {
-  //   return this.internshipsRepository.createInternship(
-  //     createInternshipDto,
-  //     user,
-  //     company,
-  //   );
-  // }
+  async getAllInternshipsByUser(user: User): Promise<Internship[]> {
+    return await this.internshipsRepository.find({
+      where: { user },
+    });
+  }
 
-  //güncel hali
-  // async createInternship(
-  //   createInternshipDto: CreateInternshipDto,
-  //   company: Company,
-  //   user: User,
-  // ): Promise<Internship> {
-  //   const {
-  //     companyName,
-  //     departmentName,
-  //     productionArea,
-  //     companyPhoneNumber,
-  //     companyEmailAddress,
-  //     companyAddress,
-  //     internshipNumber,
-  //     sameDepartmentGraduate,
-  //     startDate,
-  //     finishDate,
-  //     internshipDays,
-  //     correspondingPerson,
-  //   } = createInternshipDto;
-
-  //   let existingCompany = await this.companyRepository.findOne({
-  //     where: { companyName },
-  //   });
-  //   console.log(existingCompany);
-
-  //   if (!existingCompany) {
-  //     const createCompanyDto = {
-  //       companyName,
-  //       productionArea,
-  //       companyPhoneNumber,
-  //       companyEmailAddress,
-  //       companyAddress,
-  //     };
-  //     existingCompany = this.companyRepository.create(createCompanyDto);
-  //     await this.companyRepository.save(existingCompany);
-  //   }
-
-  //   const internship = this.internshipsRepository.create({
-  //     departmentName,
-  //     internshipNumber,
-  //     sameDepartmentGraduate,
-  //     startDate,
-  //     finishDate,
-  //     internshipDays,
-  //     correspondingPerson,
-  //     company: existingCompany,
-  //     user,
-  //     status: InternshipStatus.PREPARING, // Default status if needed
-  //   });
-
-  //   await this.internshipsRepository.save(internship);
-
-  //   return internship;
-  // }
-
-  //deneme
   async createInternship(
     createInternshipDto: CreateInternshipDto,
     user: User,
@@ -131,7 +68,8 @@ export class InternshipsService {
       companyAddress,
     };
 
-    const company = await this.companyService.createOrFindCompany(createCompanyDto);
+    const company =
+      await this.companyService.createOrFindCompany(createCompanyDto);
 
     const internship = {
       companyName,
@@ -146,7 +84,7 @@ export class InternshipsService {
       finishDate,
       internshipDays,
       correspondingPerson,
-      status: InternshipStatus.PREPARING,
+      status: InternshipStatus.WAITING_IN_DEPARTMENT_HEAD,
       company, // Şirket bilgisi ile birlikte
       user, // Kullanıcı bilgisi ile birlikte
     };

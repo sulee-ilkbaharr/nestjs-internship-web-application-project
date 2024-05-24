@@ -7,11 +7,9 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CreateInternshipDto } from './dto/create-internship.dto';
-import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Internship } from './Internship.entity';
 import { UpdateInternshipStatusDto } from './dto/update-internship-status.dto';
@@ -30,34 +28,25 @@ export class InternshipController {
     private companyService: CompanyService,
   ) {}
 
-  @Get()
-  getInternships(
-    //ACADEMİC UNIT,FACULTY ADMINISTRATION
-    @Query() filterDto: GetInternshipFilterDto,
-    @GetUser() user: User,
-  ): Promise<Internship[]> {
-    return this.internshipsService.getInternships(filterDto, user);
-  }
+  // @Get()
+  // getInternships(
+  //   //ACADEMİC UNIT,FACULTY ADMINISTRATION
+  //   @Query() filterDto: GetInternshipFilterDto,
+  //   @GetUser() user: User,
+  // ): Promise<Internship[]> {
+  //   return this.internshipsService.getInternships(filterDto, user);
+  // }
 
   @Get('/:id')
   getInternshipById(@Param('id') id: string, @GetUser() user: User) {
     return this.internshipsService.getIntershipById(id, user);
   }
 
-  //BİRİNCİ VE İKİNCİ ADIM İÇİN ÖĞRENCİ BU METOT İLE INTERNSHİP OLUŞTURUR.
-  // @Post()
-  // createInternship(
-  //   //STUDENT İNTERNSHİP OLUŞTURABİLİR.
-  //   @Body() createInternshipDto: CreateInternshipDto,
-  //   @GetUser() user: User,
-  //   @GetCompany() company: Company,
-  // ): Promise<Internship> {
-  //   return this.internshipsService.createInternship(
-  //     createInternshipDto,
-  //     user,
-  //     company,
-  //   );
-  // }
+  @Get()
+  async getAllInternships(@GetUser() user: User) {
+    return await this.internshipsService.getAllInternshipsByUser(user);
+  }
+
   @Post()
   async createInternship(
     @Body() createInternshipDto: CreateInternshipDto, //company bilgileiyle birlikte burada verileri create ederiz

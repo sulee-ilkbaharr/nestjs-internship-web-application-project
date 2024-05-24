@@ -21,4 +21,11 @@ export class CompanyController {
   createCompany(@Body() createCompanyDto: CreateCompanyDto): Promise<Company> {
     return this.companyService.createCompany(createCompanyDto);
   }
+
+  @Get('getByName')
+  async getCompanyByName(
+    @Query('companyName') companyName: string,
+  ): Promise<Company> {
+    return await this.companyService.findByName(companyName);
+  }
 }

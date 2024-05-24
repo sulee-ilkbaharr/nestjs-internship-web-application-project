@@ -36,8 +36,13 @@ export class CompanyService {
     if (!company) {
       company = await this.companyRepository.createCompany(createCompanyDto);
       // await this.companyRepository.save(company);
+    } else {
     }
 
     return company;
+  }
+
+  async findByName(companyName: string): Promise<Company> {
+    return await this.companyRepository.findOne({ where: { companyName } });
   }
 }

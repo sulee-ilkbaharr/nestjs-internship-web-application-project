@@ -28,7 +28,6 @@ export class InternshipRepository extends Repository<Internship> {
         { search: `%${search}%` },
       );
     }
-
     const internships = await query.getMany();
     return internships;
   }
@@ -63,7 +62,7 @@ export class InternshipRepository extends Repository<Internship> {
       finishDate,
       internshipDays,
       correspondingPerson,
-      status: InternshipStatus.PREPARING,
+      status: InternshipStatus.WAITING_IN_DEPARTMENT_HEAD,
       user,
     });
     await this.save(internship);
