@@ -10,7 +10,7 @@ import {
 @Entity()
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   IDno: string;
@@ -36,6 +36,6 @@ export class Student extends BaseEntity {
   @Column()
   facultyName: string;
 
-  @OneToOne(() => User, (user) => user.student)
+  @OneToOne(() => User, (user) => user.student, { eager: false })
   user: User;
 }

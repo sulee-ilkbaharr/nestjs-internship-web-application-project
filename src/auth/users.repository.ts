@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthCreadentialsDto } from './dto/auth-credentials.dto';
@@ -14,32 +10,41 @@ export class UserRepository extends Repository<User> {
     super(User, datasource.createEntityManager());
   }
 
-  async createUser(authCredentialsDto: AuthCreadentialsDto): Promise<void> {
-    const { email, password } = authCredentialsDto; // role SIGNUP
-
-    //hash
+  async createUser({
+    email,
+    password,
+    role,
+    IDno,
+    studentName,
+    studentSurname,
+    studentId,
+    studentPhoneNumber,
+    studentAddress,
+    departmentName,
+    facultyName,
+  }: AuthCreadentialsDto): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    //console.log('salt', salt);
-    //console.log('hasshedPassword', hashedPassword);
 
     const user = this.create({
       email,
       password: hashedPassword,
-      //role,
-      // SINGUP
+      role,
+      IDno,
+      studentName,
+      studentSurname,
+      studentId,
+      studentPhoneNumber,
+      studentAddress,
+      departmentName,
+      facultyName,
     });
+    //hash
 
-    try {
-      await this.save(user);
-    } catch (error) {
-      if (error.code === '23505') {
-        //duplicate error
-        throw new ConflictException('username already exists');
-      } else {
-        throw new InternalServerErrorException();
-      }
-    }
+    //console.log('salt', salt);
+    //console.log('hasshedPassword', hashedPassword);
+
+    await this.save(user);
+    return user;
   }
 }

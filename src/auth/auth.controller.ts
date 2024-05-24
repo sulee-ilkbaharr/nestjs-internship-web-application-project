@@ -3,6 +3,7 @@ import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthCreadentialsDto } from './dto/auth-credentials.dto';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from './user.entity';
 //import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
@@ -10,7 +11,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCreadentialsDto): Promise<void> {
+  signUp(@Body() authCredentialsDto: AuthCreadentialsDto): Promise<User> {
     return this.authService.signUp(authCredentialsDto);
     console.log(authCredentialsDto);
   }

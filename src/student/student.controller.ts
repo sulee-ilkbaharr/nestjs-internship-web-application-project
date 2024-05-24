@@ -10,7 +10,4 @@ export class StudentController {
   createStudent(@Body() createStudentDto: CreateStudentDto): Promise<Student> {
     return this.studentService.createStudent(createStudentDto);
   }
-
-
-  
 }

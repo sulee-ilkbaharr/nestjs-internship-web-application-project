@@ -1,10 +1,12 @@
 import {
+  IsEnum,
   IsNotEmpty,
   IsString,
   Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { UserRole } from '../user-role.enum';
 // import { UserRole } from '../user-role.enum';
 export class AuthCreadentialsDto {
   @IsString()
@@ -19,6 +21,9 @@ export class AuthCreadentialsDto {
     message: 'password is too weak',
   })
   password: string;
+
+  @IsEnum(UserRole)
+  role: UserRole;
 
   @IsNotEmpty()
   IDno: string;

@@ -8,6 +8,16 @@ export class StudentService {
   constructor(private readonly studentRepository: StudentRepository) {}
 
   async createStudent(createStudentDto: CreateStudentDto): Promise<Student> {
-    return this.studentRepository.createStudent(createStudentDto);
+    console.log(createStudentDto);
+    const { IDno } = createStudentDto;
+    let student = await this.studentRepository.findOne({
+      where: { IDno },
+    });
+
+    if (!student) {
+      student = await this.studentRepository.createStudent(createStudentDto);
+    } else {
+    }
+    return student;
   }
 }

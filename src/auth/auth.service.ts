@@ -5,16 +5,59 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { User } from './user.entity';
+import { StudentService } from 'src/student/student.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersRepository: UserRepository,
     private jwtService: JwtService,
+    private studentService: StudentService,
   ) {}
 
-  async signUp(authCredentialsDto: AuthCreadentialsDto): Promise<void> {
-    return this.usersRepository.createUser(authCredentialsDto);
+  async signUp(authCredentialsDto: AuthCreadentialsDto): Promise<User> {
+    const {
+      email,
+      password,
+      role,
+      IDno,
+      studentName,
+      studentSurname,
+      studentId,
+      studentPhoneNumber,
+      studentAddress,
+      departmentName,
+      facultyName,
+    } = authCredentialsDto;
+
+    const createStudentDto = {
+      IDno,
+      studentName,
+      studentSurname,
+      studentId,
+      studentPhoneNumber,
+      studentAddress,
+      departmentName,
+      facultyName,
+    };
+
+    const student = await this.studentService.createStudent(createStudentDto);
+
+    const user = {
+      email,
+      password,
+      role,
+      IDno,
+      studentName,
+      studentSurname,
+      studentId,
+      studentPhoneNumber,
+      studentAddress,
+      departmentName,
+      facultyName,
+      student,
+    };
+    return await this.usersRepository.save(user);
   }
 
   // async signIn(
