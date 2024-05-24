@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Department extends BaseEntity {
+export class Coordinator extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -21,15 +21,6 @@ export class Department extends BaseEntity {
   @Column()
   surname: string;
 
-  @Column()
-  departmentId: string;
-
-  @Column()
-  departmentName: string;
-
-  @Column()
-  facultyName: string;
-
-  @OneToOne(() => User, (user) => user.deparment, { eager: false })
+  @OneToOne(() => User, (user) => user.coordinator, { eager: false })
   user: User;
 }

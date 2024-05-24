@@ -28,20 +28,27 @@ export class AuthCreadentialsDto {
 
   @IsNotEmpty()
   IDno: string;
+
   @IsNotEmpty()
   name: string;
+
   @IsNotEmpty()
   surname: string;
+
   @IsOptional()
   studentId?: string;
+
   @IsOptional()
   studentPhoneNumber?: string;
+
   @IsOptional()
   studentAddress?: string;
-  @IsNotEmpty()
-  departmentName: string;
-  @IsNotEmpty()
-  facultyName: string;
+
+  @IsOptional()
+  departmentName?: string;
+
+  @IsOptional()
+  facultyName?: string;
 
   @IsOptional()
   departmentId?: string;

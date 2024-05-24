@@ -6,6 +6,7 @@ import { StudentService } from './student.service';
 @Controller('student')
 export class StudentController {
   constructor(private studentService: StudentService) {}
+
   @Post()
   createStudent(@Body() createStudentDto: CreateStudentDto): Promise<Student> {
     return this.studentService.createStudent(createStudentDto);

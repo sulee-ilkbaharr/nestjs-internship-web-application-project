@@ -8,6 +8,8 @@ import { Internship } from './internship/Internship.entity';
 import { Company } from './company/company.entity';
 import { StudentModule } from './student/student.module';
 import { DepartmentModule } from './department/department.module';
+import { FacultyModule } from './faculty/faculty.module';
+import { CoordinatorModule } from './coordinator/coordinator.module';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { DepartmentModule } from './department/department.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Sule140400',
+      password: 'Nilhan1!.',
       database: 'internship-web-application',
       autoLoadEntities: true,
       entities: [User, Internship, Company],
@@ -27,6 +29,8 @@ import { DepartmentModule } from './department/department.module';
     CompanyModule,
     StudentModule,
     DepartmentModule,
+    FacultyModule,
+    CoordinatorModule,
   ],
 })
 export class AppModule {}

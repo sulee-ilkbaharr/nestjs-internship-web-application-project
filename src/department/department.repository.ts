@@ -14,7 +14,7 @@ export class DepartmentRepository extends Repository<Department> {
   ): Promise<Department> {
     const { IDno, name, surname, departmentId, departmentName, facultyName } =
       createDepartmentDto;
-    const student = this.create({
+    const departmet = this.create({
       IDno,
       name,
       surname,
@@ -22,7 +22,7 @@ export class DepartmentRepository extends Repository<Department> {
       departmentName,
       facultyName,
     });
-    await this.save(student);
-    return student;
+    await this.save(departmet);
+    return departmet;
   }
 }
