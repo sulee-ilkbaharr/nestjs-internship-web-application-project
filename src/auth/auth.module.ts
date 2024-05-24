@@ -9,6 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { StudentModule } from 'src/student/student.module';
 import { DepartmentModule } from 'src/department/department.module';
+import { FacultyModule } from 'src/faculty/faculty.module';
+import { CoordinatorModule } from 'src/coordinator/coordinator.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { DepartmentModule } from 'src/department/department.module';
     TypeOrmModule.forFeature([User]),
     StudentModule,
     DepartmentModule,
+    FacultyModule,
+    CoordinatorModule,
   ],
   providers: [AuthService, UserRepository, JwtStrategy],
   controllers: [AuthController],

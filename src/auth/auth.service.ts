@@ -9,6 +9,8 @@ import { StudentService } from 'src/student/student.service';
 import { UserRole } from './user-role.enum';
 import { DepartmentService } from 'src/department/department.service';
 import { AuthSigninDto } from './dto/auth-signin.dto';
+import { FacultyService } from 'src/faculty/faculty.service';
+import { CoordinatorService } from 'src/coordinator/coordinator.service';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
     private studentService: StudentService,
     private departmentService: DepartmentService,
+    private facultyService: FacultyService,
+    private coordinatorService: CoordinatorService,
   ) {}
 
   async signUp(authCredentialsDto: AuthCreadentialsDto): Promise<User> {
@@ -65,6 +69,21 @@ export class AuthService {
         departmentId,
       });
       user.deparment = deparment;
+    } else if (role == UserRole.FACULTY_DEAN) {
+      const faculty = await this.facultyService.createFaculty({
+        IDno,
+        name,
+        surname,
+        facultyName,
+      });
+      user.faculty = faculty;
+    } else if (role == UserRole.INTERNSHIP_COORDINATOR) {
+      const coordinator = await this.coordinatorService.createCoordinaor({
+        IDno,
+        name,
+        surname,
+      });
+      user.coordinator = coordinator;
     }
 
     return this.usersRepository.save(user);
