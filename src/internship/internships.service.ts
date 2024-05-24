@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateInternshipDto } from './dto/create-internship.dto';
 import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 import { InternshipRepository } from './internships.repository';
@@ -7,12 +11,16 @@ import { Internship } from './Internship.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { User } from 'src/auth/user.entity';
 import { CompanyService } from 'src/company/company.service';
+import { UserRepository } from 'src/auth/users.repository';
+import { StudentRepository } from 'src/student/student.repository';
 
 @Injectable()
 export class InternshipsService {
   constructor(
     private readonly internshipsRepository: InternshipRepository,
     private companyService: CompanyService,
+    private readonly userRepository: UserRepository,
+    private readonly studentRepository: StudentRepository,
   ) {}
 
   getInternships(
@@ -39,6 +47,22 @@ export class InternshipsService {
     return await this.internshipsRepository.find({
       where: { user },
     });
+  }
+
+  async findAllWithStudentNames(): Promise<any[]> {
+    try {
+      const internships = await this.internshipsRepository.find({
+        relations: ['user', 'user.student'],
+      });
+      const result = internships.map((internship) => ({
+        ...internship,
+        studentName: `${internship.user.student.name} ${internship.user.student.surname}`,
+      }));
+      return result;
+    } catch (error) {
+      console.error('Error fetching internship details:', error);
+      throw error;
+    }
   }
 
   async createInternship(
@@ -111,9 +135,21 @@ export class InternshipsService {
     status: InternshipStatus,
     user: User,
   ): Promise<Internship> {
-    const task = await this.getIntershipById(id, user);
-    task.status = status;
-    await this.internshipsRepository.save(task);
-    return task;
+    const internship = await this.internshipsRepository.findOne({
+      where: { id, user },
+    });
+    if (!internship) {
+      throw new NotFoundException(`Internship with ID "${id}" not found`);
+    }
+
+    if (user.role !== 'DEPARTMENT' && user.role !== 'FACULTY_DEAN') {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action',
+      );
+    }
+
+    internship.status = status;
+    await this.internshipsRepository.save(internship);
+    return internship;
   }
 }
