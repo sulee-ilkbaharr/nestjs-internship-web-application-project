@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { User } from './user.entity';
 import { StudentService } from 'src/student/student.service';
+import { UserRole } from './user-role.enum';
 
 @Injectable()
 export class AuthService {
@@ -30,35 +31,74 @@ export class AuthService {
       facultyName,
     } = authCredentialsDto;
 
-    const createStudentDto = {
-      IDno,
-      studentName,
-      studentSurname,
-      studentId,
-      studentPhoneNumber,
-      studentAddress,
-      departmentName,
-      facultyName,
-    };
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const student = await this.studentService.createStudent(createStudentDto);
-
-    const user = {
+    const user = this.usersRepository.create({
       email,
-      password,
+      password: hashedPassword,
       role,
-      IDno,
-      studentName,
-      studentSurname,
-      studentId,
-      studentPhoneNumber,
-      studentAddress,
-      departmentName,
-      facultyName,
-      student,
-    };
-    return await this.usersRepository.save(user);
+    });
+
+    if (role === UserRole.STUDENT) {
+      const student = await this.studentService.createStudent({
+        IDno,
+        studentName,
+        studentSurname,
+        studentId,
+        studentPhoneNumber,
+        studentAddress,
+        departmentName,
+        facultyName,
+      });
+      user.student = student;
+    }
+
+    return this.usersRepository.save(user);
   }
+  // async signUp(authCredentialsDto: AuthCreadentialsDto): Promise<User> {
+  //   const {
+  //     email,
+  //     password,
+  //     role,
+  //     IDno,
+  //     studentName,
+  //     studentSurname,
+  //     studentId,
+  //     studentPhoneNumber,
+  //     studentAddress,
+  //     departmentName,
+  //     facultyName,
+  //   } = authCredentialsDto;
+
+  //   const createStudentDto = {
+  //     IDno,
+  //     studentName,
+  //     studentSurname,
+  //     studentId,
+  //     studentPhoneNumber,
+  //     studentAddress,
+  //     departmentName,
+  //     facultyName,
+  //   };
+
+  //   const student = await this.studentService.createStudent(createStudentDto);
+
+  //   const user = {
+  //     email,
+  //     password,
+  //     role,
+  //     IDno,
+  //     studentName,
+  //     studentSurname,
+  //     studentId,
+  //     studentPhoneNumber,
+  //     studentAddress,
+  //     departmentName,
+  //     facultyName,
+  //     student,
+  //   };
+  //   return await this.usersRepository.save(user);
+  // }
 
   // async signIn(
   //   authCredentialDto: AuthCreadentialsDto,
