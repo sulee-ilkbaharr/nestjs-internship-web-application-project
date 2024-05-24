@@ -6,6 +6,7 @@ import { CompanyModule } from './company/company.module';
 import { User } from './auth/user.entity';
 import { Internship } from './internship/Internship.entity';
 import { Company } from './company/company.entity';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { Company } from './company/company.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Sule140400',
+      password: 'Nilhan1!.',
       database: 'internship-web-application',
       autoLoadEntities: true,
       entities: [User, Internship, Company],
@@ -23,6 +24,7 @@ import { Company } from './company/company.entity';
     AuthModule,
     InternshipsModule,
     CompanyModule,
+    StudentModule,
   ],
 })
 export class AppModule {}

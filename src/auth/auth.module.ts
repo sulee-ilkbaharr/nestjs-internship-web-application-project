@@ -21,6 +21,6 @@ import { JwtStrategy } from './jwt.strategy';
   ],
   providers: [AuthService, UserRepository, JwtStrategy],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, AuthService], // AuthService eklendi böylelikle studentta kullnamak için import edilebilir , ve diğerlerinde
 })
 export class AuthModule {}

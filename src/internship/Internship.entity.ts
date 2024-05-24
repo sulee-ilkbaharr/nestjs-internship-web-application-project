@@ -52,7 +52,7 @@ export class Internship extends BaseEntity {
   @Column()
   internshipDays: string;
 
-  @ManyToOne((_type) => User, (user) => user.internship, {
+  @ManyToOne((_type) => User, (user) => user.internships, {
     eager: false,
   })
   user: User;
