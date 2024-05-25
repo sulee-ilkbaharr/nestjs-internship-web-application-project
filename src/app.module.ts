@@ -10,6 +10,8 @@ import { StudentModule } from './student/student.module';
 import { DepartmentModule } from './department/department.module';
 import { FacultyModule } from './faculty/faculty.module';
 import { CoordinatorModule } from './coordinator/coordinator.module';
+import { FilesModule } from './files/files.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -24,6 +26,9 @@ import { CoordinatorModule } from './coordinator/coordinator.module';
       entities: [User, Internship, Company],
       synchronize: true,
     }),
+    MulterModule.register({
+      dest: './uploads',
+    }),
     AuthModule,
     InternshipsModule,
     CompanyModule,
@@ -31,6 +36,7 @@ import { CoordinatorModule } from './coordinator/coordinator.module';
     DepartmentModule,
     FacultyModule,
     CoordinatorModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

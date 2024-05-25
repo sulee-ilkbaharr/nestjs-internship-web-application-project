@@ -10,6 +10,8 @@ import { User } from 'src/auth/user.entity';
 import { Student } from 'src/student/student.entity';
 import { UserRepository } from 'src/auth/users.repository';
 import { StudentRepository } from 'src/student/student.repository';
+import { FilesModule } from 'src/files/files.module';
+import { FileRepository } from 'src/files/file.repository';
 
 @Module({
   imports: [
@@ -20,12 +22,14 @@ import { StudentRepository } from 'src/student/student.repository';
       InternshipRepository,
       UserRepository,
       StudentRepository,
+      FileRepository,
     ]),
     AuthModule,
     CompanyModule,
+    FilesModule,
   ],
   controllers: [InternshipController],
-  providers: [InternshipsService, InternshipRepository],
-  // exports: [InternshipsService],
+  providers: [InternshipsService, InternshipRepository, UserRepository],
+  exports: [InternshipsService],
 })
 export class InternshipsModule {}

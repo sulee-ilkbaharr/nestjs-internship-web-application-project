@@ -4,10 +4,15 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
+  OneToOne,
+  JoinColumn,
+  // OneToMany,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { Company } from 'src/company/company.entity';
+import { FileEntity } from 'src/files/file.entity';
+// import { File } from 'src/files/file.entity';
 
 @Entity()
 export class Internship extends BaseEntity {
@@ -63,4 +68,8 @@ export class Internship extends BaseEntity {
     eager: true,
   })
   company: Company;
+
+  @OneToOne(() => FileEntity, (file) => file.internship, { eager: true })
+  @JoinColumn()
+  file: FileEntity;
 }
