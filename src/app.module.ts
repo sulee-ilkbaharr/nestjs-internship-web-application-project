@@ -12,6 +12,7 @@ import { FacultyModule } from './faculty/faculty.module';
 import { CoordinatorModule } from './coordinator/coordinator.module';
 import { FilesModule } from './files/files.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { MulterModule } from '@nestjs/platform-express';
     FacultyModule,
     CoordinatorModule,
     FilesModule,
+    ReportsModule,
   ],
 })
 export class AppModule {}

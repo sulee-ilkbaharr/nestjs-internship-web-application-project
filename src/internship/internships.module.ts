@@ -12,6 +12,8 @@ import { UserRepository } from 'src/auth/users.repository';
 import { StudentRepository } from 'src/student/student.repository';
 import { FilesModule } from 'src/files/files.module';
 import { FileRepository } from 'src/files/file.repository';
+import { ReportsModule } from 'src/reports/reports.module';
+import { ReportRepository } from 'src/reports/report.repository';
 
 @Module({
   imports: [
@@ -23,10 +25,12 @@ import { FileRepository } from 'src/files/file.repository';
       UserRepository,
       StudentRepository,
       FileRepository,
+      ReportRepository,
     ]),
     AuthModule,
     CompanyModule,
     FilesModule,
+    ReportsModule,
   ],
   controllers: [InternshipController],
   providers: [InternshipsService, InternshipRepository, UserRepository],

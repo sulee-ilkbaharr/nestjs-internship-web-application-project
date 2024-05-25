@@ -12,6 +12,7 @@ import { User } from 'src/auth/user.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { Company } from 'src/company/company.entity';
 import { FileEntity } from 'src/files/file.entity';
+import { Reports } from 'src/reports/report.entity';
 // import { File } from 'src/files/file.entity';
 
 @Entity()
@@ -23,15 +24,6 @@ export class Internship extends BaseEntity {
 
   @Column()
   companyName: string;
-  @Column()
-  productionArea: string;
-  @Column()
-  companyPhoneNumber: string;
-  @Column()
-  companyAddress: string;
-
-  @Column()
-  companyEmailAddress: string;
 
   @Column()
   departmentName: string;
@@ -72,4 +64,8 @@ export class Internship extends BaseEntity {
   @OneToOne(() => FileEntity, (file) => file.internship, { eager: true })
   @JoinColumn()
   file: FileEntity;
+
+  @OneToOne(() => Reports, (reports) => reports.internship, { eager: true })
+  @JoinColumn()
+  reports: Reports;
 }

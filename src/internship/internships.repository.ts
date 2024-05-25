@@ -50,10 +50,6 @@ export class InternshipRepository extends Repository<Internship> {
     {
       companyName,
       departmentName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
       internshipNumber,
       sameDepartmentGraduate,
       startDate,
@@ -66,10 +62,6 @@ export class InternshipRepository extends Repository<Internship> {
     const internship = this.create({
       companyName,
       departmentName,
-      productionArea,
-      companyPhoneNumber,
-      companyEmailAddress,
-      companyAddress,
       internshipNumber,
       sameDepartmentGraduate,
       startDate,
