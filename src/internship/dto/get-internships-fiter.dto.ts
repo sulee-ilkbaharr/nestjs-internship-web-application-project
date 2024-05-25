@@ -7,6 +7,10 @@ export class GetInternshipFilterDto {
   @IsEnum(InternshipStatus)
   status?: InternshipStatus; //
 
+  @IsOptional()
+  @IsEnum(InternshipStatus, { each: true })
+  notStatus?: InternshipStatus[];
+
   @IsOptional() //Bunu Ekle hata almamak için
   @IsString()
   search?: string; //optinal
