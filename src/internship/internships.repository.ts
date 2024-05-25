@@ -5,6 +5,7 @@ import { Internship } from './Internship.entity';
 import { User } from 'src/auth/user.entity';
 import { InternshipStatus } from './internship-status.enum';
 import { CreateInternshipDto } from './dto/create-internship.dto';
+import { UserRole } from 'src/auth/user-role.enum';
 
 @Injectable()
 export class InternshipRepository extends Repository<Internship> {
@@ -16,15 +17,28 @@ export class InternshipRepository extends Repository<Internship> {
     filterDto: GetInternshipFilterDto,
     user: User,
   ): Promise<Internship[]> {
-    const { status, search } = filterDto;
-    const query = this.createQueryBuilder('intership');
-    query.where({ user });
+    const { status, notStatus, search } = filterDto;
+    const query = this.createQueryBuilder('internship');
+
+    if (user.role === UserRole.DEPARTMENT) {
+      query
+        .leftJoinAndSelect('internship.user', 'user')
+        .leftJoinAndSelect('user.student', 'student');
+    } else {
+      query.where({ user });
+    }
+
     if (status) {
       query.andWhere('internship.status = :status', { status });
     }
+
+    if (notStatus && notStatus.length > 0) {
+      query.andWhere('internship.status NOT IN (:...notStatus)', { notStatus });
+    }
+
     if (search) {
       query.andWhere(
-        '(LOWER(intership.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search))',
+        '(LOWER(internship.title) LIKE LOWER(:search) OR LOWER(internship.description) LIKE LOWER(:search))',
         { search: `%${search}%` },
       );
     }

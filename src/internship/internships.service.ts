@@ -13,6 +13,7 @@ import { User } from 'src/auth/user.entity';
 import { CompanyService } from 'src/company/company.service';
 import { UserRepository } from 'src/auth/users.repository';
 import { StudentRepository } from 'src/student/student.repository';
+import { UserRole } from 'src/auth/user-role.enum';
 
 @Injectable()
 export class InternshipsService {
@@ -23,22 +24,21 @@ export class InternshipsService {
     private readonly studentRepository: StudentRepository,
   ) {}
 
-  getInternships(
+  getInternshipswithfilter(
     filterDto: GetInternshipFilterDto,
     user: User,
   ): Promise<Internship[]> {
-    //yetkili kişi get internship metodu ile internshipleri çekebilir
     return this.internshipsRepository.getInterships(filterDto, user);
   }
 
   async getIntershipById(id: string, user: User): Promise<Internship> {
-    // Update metotunda ihtiyaç olacak.Udpate metodu statusün bölüm başkanı ve dekan tarafından update edilmesini sağlayacak!
     const found = await this.internshipsRepository.findOne({
-      where: { id, user },
+      where: { id },
+      relations: ['user'],
     });
 
     if (!found) {
-      throw new NotFoundException('Internship with ID "${id}" not found');
+      throw new NotFoundException(`Internship with ID "${id}" not found`);
     }
     return found;
   }
@@ -130,19 +130,16 @@ export class InternshipsService {
     console.log(result);
   }
   async updateInternshipStatus(
-    //status bölüm başkanı ve dekan tarafından update edilir!
     id: string,
     status: InternshipStatus,
     user: User,
   ): Promise<Internship> {
-    const internship = await this.internshipsRepository.findOne({
-      where: { id, user },
-    });
-    if (!internship) {
-      throw new NotFoundException(`Internship with ID "${id}" not found`);
-    }
+    const internship = await this.getIntershipById(id, user);
 
-    if (user.role !== 'DEPARTMENT' && user.role !== 'FACULTY_DEAN') {
+    if (
+      user.role !== UserRole.DEPARTMENT &&
+      user.role !== UserRole.FACULTY_DEAN
+    ) {
       throw new ForbiddenException(
         'You do not have permission to perform this action',
       );

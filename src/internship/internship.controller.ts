@@ -7,8 +7,9 @@ import {
   Param,
   Patch,
   Post,
-  Req,
+  Query,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateInternshipDto } from './dto/create-internship.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -19,6 +20,7 @@ import { GetUser } from 'src/auth/get-user.decorater';
 import { User } from 'src/auth/user.entity';
 import { CompanyService } from 'src/company/company.service';
 import { UserRole } from 'src/auth/user-role.enum';
+import { GetInternshipFilterDto } from './dto/get-internships-fiter.dto';
 
 @Controller('internship')
 @UseGuards(AuthGuard()) //Giriş yapıp yapmamdığını kontrol eder!!!!önemliiii
@@ -30,15 +32,16 @@ export class InternshipController {
     private companyService: CompanyService,
   ) {}
 
-  // @Get()
-  // getInternships(
-  //   //ACADEMİC UNIT,FACULTY ADMINISTRATION
-  //   @Query() filterDto: GetInternshipFilterDto,
-  //   @GetUser() user: User,
-  // ): Promise<Internship[]> {
-  //   return this.internshipsService.getInternships(filterDto, user);
-  // }
-
+  @Get('/filter')
+  getInternshipswithfilter(
+    @Query(ValidationPipe) filterDto: GetInternshipFilterDto,
+    @GetUser() user: User,
+  ) {
+    if (filterDto.notStatus && typeof filterDto.notStatus === 'string'){
+      filterDto.notStatus = [filterDto.notStatus];
+    }
+    return this.internshipsService.getInternshipswithfilter(filterDto, user);
+  }
   // @Get('/:id')
   // getInternshipById(@Param('id') id: string, @GetUser() user: User) {
   //   return this.internshipsService.getIntershipById(id, user);
