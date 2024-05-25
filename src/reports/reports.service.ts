@@ -1,8 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Express } from 'express';
-import { ReportRepository } from './report.repository';
 import { InternshipRepository } from 'src/internship/internships.repository';
+import { ReportRepository } from './report.repository';
 import { Reports } from './report.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ReportsService {
@@ -26,14 +25,21 @@ export class ReportsService {
       );
     }
     const newFile = this.reportRepository.create({
-      Internship_Report: reports.Internship_Report.filename,
+      Internship_Report: reports.Internship_Report.originalname, // Orijinal dosya adını kaydediyoruz
       internship: internship,
     });
 
     await this.reportRepository.save(newFile);
-    internship.reports = newFile; // Düzeltildi
+    internship.reports = newFile;
     await this.internshipRepository.save(internship);
 
     return newFile;
+  }
+
+  async getReportsByInternship(internshipId: string): Promise<Reports[]> {
+    return this.reportRepository.find({
+      where: { internship: { id: internshipId } },
+      relations: ['internship'],
+    });
   }
 }
