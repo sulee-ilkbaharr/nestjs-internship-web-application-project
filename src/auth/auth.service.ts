@@ -66,7 +66,6 @@ export class AuthService {
         surname,
         departmentName,
         facultyName,
-        departmentId,
       });
       user.deparment = deparment;
     } else if (role == UserRole.FACULTY_DEAN) {

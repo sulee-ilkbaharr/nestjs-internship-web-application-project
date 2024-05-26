@@ -22,9 +22,6 @@ export class Department extends BaseEntity {
   surname: string;
 
   @Column()
-  departmentId: string;
-
-  @Column()
   departmentName: string;
 
   @Column()

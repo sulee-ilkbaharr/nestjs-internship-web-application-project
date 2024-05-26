@@ -11,9 +11,6 @@ export class CreateDepartmentDto {
   surname: string;
 
   @IsNotEmpty()
-  departmentId: string;
-
-  @IsNotEmpty()
   departmentName: string;
 
   @IsNotEmpty()

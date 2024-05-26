@@ -10,7 +10,7 @@ export class FilesService {
     private readonly fileRepository: FileRepository,
     private readonly internshipRepository: InternshipRepository,
   ) {}
-
+ 
   async uploadFiles(
     files: {
       Internship_Application_Form: Express.Multer.File;

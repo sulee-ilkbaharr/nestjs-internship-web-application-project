@@ -12,13 +12,12 @@ export class DepartmentRepository extends Repository<Department> {
   async createDeparment(
     createDepartmentDto: CreateDepartmentDto,
   ): Promise<Department> {
-    const { IDno, name, surname, departmentId, departmentName, facultyName } =
+    const { IDno, name, surname, departmentName, facultyName } =
       createDepartmentDto;
     const departmet = this.create({
       IDno,
       name,
       surname,
-      departmentId,
       departmentName,
       facultyName,
     });
