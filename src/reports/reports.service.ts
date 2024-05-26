@@ -16,8 +16,9 @@ export class ReportsService {
     },
     internshipId: string,
   ): Promise<Reports> {
-    const internship = await this.internshipRepository.findOneBy({
-      id: internshipId,
+    const internship = await this.internshipRepository.findOne({
+      where: { id: internshipId },
+      relations: ['user'],
     });
     if (!internship) {
       throw new NotFoundException(
@@ -25,7 +26,7 @@ export class ReportsService {
       );
     }
     const newFile = this.reportRepository.create({
-      Internship_Report: reports.Internship_Report.originalname, // Orijinal dosya adını kaydediyoruz
+      Internship_Report: reports.Internship_Report.filename, // Orijinal dosya adını kaydediyoruz
       internship: internship,
     });
 
