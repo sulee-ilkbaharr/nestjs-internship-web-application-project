@@ -4,9 +4,14 @@ import { CompanyService } from './company.service';
 import { CompanyRepository } from './company.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Company } from './company.entity';
+import { CompanyEvaluation } from 'src/company-evaluation/company-evaluation.entity';
+import { CompanyEvaluationModule } from 'src/company-evaluation/company-evaluation.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company])],
+  imports: [
+    TypeOrmModule.forFeature([Company, CompanyEvaluation]),
+    CompanyEvaluationModule,
+  ],
   controllers: [CompanyController],
   providers: [CompanyService, CompanyRepository],
   exports: [CompanyService],

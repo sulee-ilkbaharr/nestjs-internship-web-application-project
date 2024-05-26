@@ -14,6 +14,7 @@ import { FilesModule } from 'src/files/files.module';
 import { FileRepository } from 'src/files/file.repository';
 import { ReportsModule } from 'src/reports/reports.module';
 import { ReportRepository } from 'src/reports/report.repository';
+import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ReportRepository } from 'src/reports/report.repository';
       StudentRepository,
       FileRepository,
       ReportRepository,
+      CompanyEvaluationRepository,
     ]),
     AuthModule,
     CompanyModule,

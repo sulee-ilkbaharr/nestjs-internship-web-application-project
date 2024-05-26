@@ -14,6 +14,7 @@ import { CompanyService } from 'src/company/company.service';
 import { UserRepository } from 'src/auth/users.repository';
 import { StudentRepository } from 'src/student/student.repository';
 import { UserRole } from 'src/auth/user-role.enum';
+import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
 
 @Injectable()
 export class InternshipsService {
@@ -22,6 +23,7 @@ export class InternshipsService {
     private companyService: CompanyService,
     private readonly userRepository: UserRepository,
     private readonly studentRepository: StudentRepository,
+    private readonly companyEvaluationRepository: CompanyEvaluationRepository,
   ) {}
 
   getInternshipswithfilter(
@@ -63,6 +65,32 @@ export class InternshipsService {
       console.error('Error fetching internship details:', error);
       throw error;
     }
+  }
+
+  async getAllInternshipsWithCompanyEvaluations(): Promise<any[]> {
+    const internships = await this.internshipsRepository.find({
+      relations: ['user', 'user.student', 'company'],
+    });
+
+    const result = await Promise.all(
+      internships.map(async (internship) => {
+        const companyEvaluation =
+          await this.companyEvaluationRepository.findOne({
+            where: { company: internship.company },
+          });
+
+        return {
+          studentName: `${internship.user.student.name} ${internship.user.student.surname}`,
+          studentDepartment: internship.user.student.departmentName,
+          companyName: internship.company.companyName,
+          companyDepartment: internship.departmentName,
+          score: companyEvaluation?.score || null,
+          notes: companyEvaluation?.notes || null,
+        };
+      }),
+    );
+
+    return result;
   }
 
   async createInternship(

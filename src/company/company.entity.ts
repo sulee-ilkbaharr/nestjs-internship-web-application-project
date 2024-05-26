@@ -1,9 +1,12 @@
+import { CompanyEvaluation } from 'src/company-evaluation/company-evaluation.entity';
 import { Internship } from 'src/internship/Internship.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,6 +34,14 @@ export class Company extends BaseEntity {
     eager: false,
   })
   internships: Internship[];
+
+  @OneToOne(
+    () => CompanyEvaluation,
+    (companyEvaluation) => companyEvaluation.company,
+    { eager: true, cascade: true },
+  )
+  @JoinColumn()
+  companyEvaluation: CompanyEvaluation;
 
   //bir internship sadece bir tane company içerebilir ama company birden fazla internshipe sahip olabilir.
 }

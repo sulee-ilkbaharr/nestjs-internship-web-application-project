@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   Logger,
   Param,
@@ -59,6 +60,16 @@ export class InternshipController {
     } else {
       return { message: 'Unauthorized' };
     }
+  }
+
+  @Get('all-with-evaluations')
+  async getAllInternshipsWithCompanyEvaluations(@GetUser() user: User) {
+    if (user.role !== UserRole.DEPARTMENT) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action',
+      );
+    }
+    return await this.internshipsService.getAllInternshipsWithCompanyEvaluations();
   }
 
   @Post()

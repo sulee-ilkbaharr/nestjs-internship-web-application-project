@@ -13,6 +13,7 @@ import { CoordinatorModule } from './coordinator/coordinator.module';
 import { FilesModule } from './files/files.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ReportsModule } from './reports/reports.module';
+import { CompanyEvaluationModule } from './company-evaluation/company-evaluation.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ReportsModule } from './reports/reports.module';
     CoordinatorModule,
     FilesModule,
     ReportsModule,
+    CompanyEvaluationModule,
   ],
 })
 export class AppModule {}
