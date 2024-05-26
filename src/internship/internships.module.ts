@@ -18,24 +18,22 @@ import { CompanyEvaluationRepository } from 'src/company-evaluation/company-eval
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      Internship,
-      User,
-      Student,
-      InternshipRepository,
-      UserRepository,
-      StudentRepository,
-      FileRepository,
-      ReportRepository,
-      CompanyEvaluationRepository,
-    ]),
+    TypeOrmModule.forFeature([Internship, User, Student]),
     AuthModule,
     CompanyModule,
     FilesModule,
     ReportsModule,
   ],
   controllers: [InternshipController],
-  providers: [InternshipsService, InternshipRepository, UserRepository],
+  providers: [
+    InternshipsService,
+    InternshipRepository,
+    UserRepository,
+    StudentRepository,
+    FileRepository,
+    ReportRepository,
+    CompanyEvaluationRepository,
+  ],
   exports: [InternshipsService],
 })
 export class InternshipsModule {}
