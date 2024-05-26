@@ -38,7 +38,7 @@ export class Company extends BaseEntity {
   @OneToOne(
     () => CompanyEvaluation,
     (companyEvaluation) => companyEvaluation.company,
-    { eager: true, cascade: true },
+    { cascade: true },
   )
   @JoinColumn()
   companyEvaluation: CompanyEvaluation;

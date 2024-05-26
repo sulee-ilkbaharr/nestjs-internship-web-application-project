@@ -1,5 +1,5 @@
 // company-evaluation.controller.ts
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { CompanyEvaluationService } from './company-evaluation.service';
 import { CreateCompanyEvaluationDto } from './dto/create-company-evaluation.dto';
 import { UpdateCompanyEvaluationDto } from './dto/update-company-evaluation.dto';
@@ -14,16 +14,26 @@ export class CompanyEvaluationController {
   createCompanyEvaluation(
     @Body() createCompanyEvaluationDto: CreateCompanyEvaluationDto,
   ) {
+    console.log(
+      'Received request to create company evaluation:',
+      createCompanyEvaluationDto,
+    );
     return this.companyEvaluationService.createCompanyEvaluation(
       createCompanyEvaluationDto,
     );
   }
 
-  @Put(':id')
+  @Patch(':id')
   updateCompanyEvaluation(
     @Param('id') id: string,
     @Body() updateCompanyEvaluationDto: UpdateCompanyEvaluationDto,
   ) {
+    console.log(
+      'Received request to update company evaluation with ID:',
+      id,
+      'Data:',
+      updateCompanyEvaluationDto,
+    );
     return this.companyEvaluationService.updateCompanyEvaluation(
       id,
       updateCompanyEvaluationDto,

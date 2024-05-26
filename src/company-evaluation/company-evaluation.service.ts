@@ -29,16 +29,31 @@ export class CompanyEvaluationService {
       company,
     });
 
-    return this.companyEvaluationRepository.save(companyEvaluation);
+    console.log('Saving company evaluation:', companyEvaluation);
+    await this.companyEvaluationRepository.save(companyEvaluation);
+
+    company.companyEvaluation = companyEvaluation;
+    console.log('Updating company with evaluation:', company);
+    await this.companyRepository.save(company);
+
+    return companyEvaluation;
   }
 
   async updateCompanyEvaluation(
     id: string,
     updateCompanyEvaluationDto: UpdateCompanyEvaluationDto,
   ): Promise<CompanyEvaluation> {
+    console.log(
+      'Updating company evaluation with ID:',
+      id,
+      'Data:',
+      updateCompanyEvaluationDto,
+    );
+
     const companyEvaluation = await this.companyEvaluationRepository.findOne({
       where: { id },
     });
+
     if (!companyEvaluation) {
       throw new NotFoundException(
         `Company Evaluation with ID "${id}" not found`,
@@ -49,6 +64,7 @@ export class CompanyEvaluationService {
     if (score !== undefined) companyEvaluation.score = score;
     if (notes !== undefined) companyEvaluation.notes = notes;
 
+    console.log('Saving updated company evaluation:', companyEvaluation);
     return this.companyEvaluationRepository.save(companyEvaluation);
   }
 }

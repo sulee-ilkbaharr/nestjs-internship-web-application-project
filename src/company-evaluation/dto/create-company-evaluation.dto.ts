@@ -5,8 +5,8 @@ export class CreateCompanyEvaluationDto {
   score: number;
 
   @IsNotEmpty()
-  readonly notes: string;
+  notes: string;
 
   @IsNotEmpty()
-  readonly companyId: string;
+  companyId: string;
 }

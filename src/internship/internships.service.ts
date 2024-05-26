@@ -86,6 +86,8 @@ export class InternshipsService {
           companyDepartment: internship.departmentName,
           score: companyEvaluation?.score || null,
           notes: companyEvaluation?.notes || null,
+          companyId: internship.company.id,
+          companyEvaluationId: companyEvaluation?.id || null,
         };
       }),
     );
