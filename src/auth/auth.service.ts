@@ -36,7 +36,6 @@ export class AuthService {
       studentAddress,
       departmentName,
       facultyName,
-      departmentId,
     } = authCredentialsDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -167,5 +166,9 @@ export class AuthService {
 
   async getUserByEmail(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
+  }
+
+  async findById(id: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { id } });
   }
 }

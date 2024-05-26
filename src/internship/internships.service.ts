@@ -33,7 +33,7 @@ export class InternshipsService {
     return this.internshipsRepository.getInterships(filterDto, user);
   }
 
-  async getIntershipById(id: string, user: User): Promise<Internship> {
+  async getIntershipById(id: string): Promise<Internship> {
     const found = await this.internshipsRepository.findOne({
       where: { id },
       relations: ['user'],
@@ -164,7 +164,7 @@ export class InternshipsService {
     status: InternshipStatus,
     user: User,
   ): Promise<Internship> {
-    const internship = await this.getIntershipById(id, user);
+    const internship = await this.getIntershipById(id);
 
     if (
       user.role !== UserRole.DEPARTMENT &&

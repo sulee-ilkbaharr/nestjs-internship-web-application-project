@@ -1,7 +1,14 @@
 import { InternshipRepository } from 'src/internship/internships.repository';
 import { ReportRepository } from './report.repository';
 import { Reports } from './report.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { ReportStatus } from './report-status.enum';
+import { User } from 'src/auth/user.entity';
+import { UserRole } from 'src/auth/user-role.enum';
 
 @Injectable()
 export class ReportsService {
@@ -42,5 +49,30 @@ export class ReportsService {
       where: { internship: { id: internshipId } },
       relations: ['internship'],
     });
+  }
+
+  async updateReportStatus(
+    reportId: string,
+    status: ReportStatus,
+    user: User,
+  ): Promise<Reports> {
+    const report = await this.reportRepository.findOne({
+      where: { id: reportId },
+      relations: ['internship', 'internship.user'],
+    });
+
+    if (!report) {
+      throw new NotFoundException(`Report with ID ${reportId} not found`);
+    }
+
+    if (user.role !== UserRole.DEPARTMENT) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action',
+      );
+    }
+
+    report.Evaluation = status;
+    await this.reportRepository.save(report);
+    return report;
   }
 }
