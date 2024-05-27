@@ -68,7 +68,7 @@ export class InternshipController {
 
   @Get('all-with-evaluations')
   async getAllInternshipsWithCompanyEvaluations(@GetUser() user: User) {
-    if (user.role !== UserRole.DEPARTMENT) {
+    if (user.role === UserRole.STUDENT) {
       throw new ForbiddenException(
         'You do not have permission to perform this action',
       );
