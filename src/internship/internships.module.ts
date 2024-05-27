@@ -15,6 +15,7 @@ import { FileRepository } from 'src/files/file.repository';
 import { ReportsModule } from 'src/reports/reports.module';
 import { ReportRepository } from 'src/reports/report.repository';
 import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CompanyEvaluationRepository } from 'src/company-evaluation/company-eval
     CompanyModule,
     FilesModule,
     ReportsModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [InternshipController],
   providers: [

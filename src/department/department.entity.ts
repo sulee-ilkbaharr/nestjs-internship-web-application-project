@@ -1,8 +1,10 @@
+import { Assessment } from 'src/assessment/assessment.entity';
 import { User } from 'src/auth/user.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -29,4 +31,9 @@ export class Department extends BaseEntity {
 
   @OneToOne(() => User, (user) => user.deparment, { eager: false })
   user: User;
+
+  @OneToMany(() => Assessment, (assessment) => assessment.department, {
+    eager: false,
+  })
+  assessments: Assessment[];
 }

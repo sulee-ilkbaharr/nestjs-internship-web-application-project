@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DepartmentRepository } from './department.repository';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { Department } from './department.entity';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class DepartmentService {
@@ -22,5 +23,8 @@ export class DepartmentService {
     } else {
     }
     return department;
+  }
+  async getDepartmentByUser(user: User): Promise<Department> {
+    return this.departmentRepository.findOne({ where: { user } });
   }
 }

@@ -15,6 +15,8 @@ import { UserRepository } from 'src/auth/users.repository';
 import { StudentRepository } from 'src/student/student.repository';
 import { UserRole } from 'src/auth/user-role.enum';
 import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class InternshipsService {
@@ -178,5 +180,72 @@ export class InternshipsService {
     internship.status = status;
     await this.internshipsRepository.save(internship);
     return internship;
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async handleCron(internshipId: string) {
+    const today = new Date().toISOString().split('T')[0];
+    console.log(`Running cron job for date: ${today}`); // Log ekleyerek kontrol edin
+
+    const internships = await this.internshipsRepository.find({
+      where: { finishDate: today },
+      relations: ['company'],
+    });
+
+    console.log(`Found ${internships.length} internships finishing today.`); // Log ekleyerek kontrol edin
+
+    for (const internship of internships) {
+      if (internship.company && internship.company.companyEmailAddress) {
+        await this.sendAssessmentFormEmail(
+          internship.company.companyEmailAddress,
+          internshipId,
+        );
+        console.log(`Sent email to ${internship.company.companyEmailAddress}`); // Log ekleyerek kontrol edin
+      }
+    }
+  }
+
+  //TEST için!!!
+  async sendEmailForTesting(internshipId: string) {
+    const internship = await this.getIntershipById(internshipId);
+
+    if (!internship.company || !internship.company.companyEmailAddress) {
+      throw new NotFoundException(
+        `Company or company email not found for internship ID: ${internshipId}`,
+      );
+    }
+
+    await this.sendAssessmentFormEmail(
+      internship.company.companyEmailAddress,
+      internshipId,
+    );
+
+    return { message: 'Email sent successfully' };
+  }
+
+  async sendAssessmentFormEmail(email: string, internshipId: string) {
+    const transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user: 'nilhan.t@hotmail.com', // Gerçek email ve şifreyi buraya girin
+        pass: 'Bilgen321.',
+      },
+    });
+
+    const mailOptions = {
+      from: 'nilhan.t@hotmail.com',
+      to: email,
+      subject: 'Assessment Form',
+      text: `Please fill out the assessment form for the internship. Link: http://127.0.0.1:5502/view/internship_assesment_form/internship_assesment_form.html?internshipId=${internshipId}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email: ', error);
+        throw new Error('Email not sent');
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
   }
 }

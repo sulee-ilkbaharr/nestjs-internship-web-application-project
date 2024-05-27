@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
+  OneToMany,
   // OneToMany,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
@@ -13,6 +14,7 @@ import { InternshipStatus } from './internship-status.enum';
 import { Company } from 'src/company/company.entity';
 import { FileEntity } from 'src/files/file.entity';
 import { Reports } from 'src/reports/report.entity';
+import { Assessment } from 'src/assessment/assessment.entity';
 // import { File } from 'src/files/file.entity';
 
 @Entity()
@@ -68,4 +70,9 @@ export class Internship extends BaseEntity {
   @OneToOne(() => Reports, (reports) => reports.internship, { eager: true })
   @JoinColumn()
   reports: Reports;
+
+  @OneToMany(() => Assessment, (assessment) => assessment.internship, {
+    eager: false,
+  })
+  assessments: Assessment[];
 }

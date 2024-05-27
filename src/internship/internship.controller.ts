@@ -97,4 +97,21 @@ export class InternshipController {
     const { status } = updateInternshipStatusDto;
     return this.internshipsService.updateInternshipStatus(id, status, user);
   }
+
+  @Post('/:internshipId/send-email')
+  async sendAssessmentEmail(
+    @Param('internshipId') internshipId: string,
+    @GetUser() user: User,
+  ) {
+    if (
+      user.role !== UserRole.DEPARTMENT &&
+      user.role !== UserRole.INTERNSHIP_COORDINATOR &&
+      user.role !== UserRole.STUDENT
+    ) {
+      throw new ForbiddenException(
+        'You do not have permission to perform this action',
+      );
+    }
+    return this.internshipsService.sendEmailForTesting(internshipId);
+  }
 }

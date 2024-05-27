@@ -14,6 +14,8 @@ import { FilesModule } from './files/files.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ReportsModule } from './reports/reports.module';
 import { CompanyEvaluationModule } from './company-evaluation/company-evaluation.module';
+import { AssessmentModule } from './assessment/assessment.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { CompanyEvaluationModule } from './company-evaluation/company-evaluation
     FilesModule,
     ReportsModule,
     CompanyEvaluationModule,
+    AssessmentModule,
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}
