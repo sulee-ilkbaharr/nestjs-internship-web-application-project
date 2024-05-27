@@ -29,6 +29,8 @@ export class AssessmentRepository extends Repository<Assessment> {
   async getAssessmentsByInternship(
     internship: Internship,
   ): Promise<Assessment[]> {
-    return this.find({ where: { internship } });
+    const assessments = await this.find({ where: { internship } });
+    console.log(assessments);
+    return assessments;
   }
 }

@@ -36,6 +36,9 @@ export class AssessmentController {
   async getAssessments(@Param('internshipId') internshipId: string) {
     const internship =
       await this.internshipService.getIntershipById(internshipId);
-    return this.assessmentService.getAssessmentsByInternship(internship);
+    const assessments =
+      await this.assessmentService.getAssessmentsByInternship(internship);
+    console.log(assessments);
+    return assessments;
   }
 }

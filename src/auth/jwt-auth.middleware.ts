@@ -17,11 +17,13 @@ export class JwtAuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
+      console.log('Authorization header not found');
       throw new UnauthorizedException('Authorization header not found');
     }
 
     const [bearer, token] = authHeader.split(' ');
     if (bearer !== 'Bearer' || !token) {
+      console.log('Invalid token format');
       throw new UnauthorizedException('Invalid token format');
     }
 
@@ -29,11 +31,13 @@ export class JwtAuthMiddleware implements NestMiddleware {
       const decoded = this.jwtService.verify(token);
       const user = await this.authService.findById(decoded.id); // Kullanıcıyı veritabanından alın
       if (!user) {
+        console.log('User not found');
         throw new UnauthorizedException('User not found');
       }
       req.user = user; // Kullanıcıyı request nesnesine ekleyin
       next();
     } catch (error) {
+      console.log('Invalid token', error);
       throw new UnauthorizedException('Invalid token');
     }
   }

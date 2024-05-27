@@ -8,7 +8,6 @@ import {
   Req,
   Res,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ReportsService } from './reports.service';
@@ -16,7 +15,6 @@ import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Response, Request } from 'express';
 import { UpdateReportStatusDto } from './dto/update-report-status.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/auth/user.entity';
 
 @Controller('reports')
@@ -24,7 +22,6 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Post(':internshipId/upload')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: diskStorage({
@@ -49,13 +46,11 @@ export class ReportsController {
   }
 
   @Get(':internshipId')
-  @UseGuards(AuthGuard('jwt'))
   getReportsByInternship(@Param('internshipId') internshipId: string) {
     return this.reportsService.getReportsByInternship(internshipId);
   }
 
   @Get('download/:filename')
-  @UseGuards(AuthGuard('jwt'))
   async downloadFile(
     @Param('filename') filename: string,
     @Res() res: Response,
@@ -64,13 +59,12 @@ export class ReportsController {
   }
 
   @Patch(':reportId/status')
-  @UseGuards(AuthGuard('jwt'))
   async updateReportStatus(
     @Param('reportId') reportId: string,
     @Body() updateReportStatusDto: UpdateReportStatusDto,
     @Req() req: Request,
   ) {
-    const user = req.user as User; // Kullanıcı bilgilerini request'ten alıyoruz
+    const user = req.user as User;
     const { status } = updateReportStatusDto;
     const updatedReport = await this.reportsService.updateReportStatus(
       reportId,
