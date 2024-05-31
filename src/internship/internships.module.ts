@@ -16,6 +16,8 @@ import { ReportsModule } from 'src/reports/reports.module';
 import { ReportRepository } from 'src/reports/report.repository';
 import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
 import { PassportModule } from '@nestjs/passport';
+import { InsuranceModule } from 'src/insurance/insurance.module';
+import { InsuranceRepository } from 'src/insurance/insurance.repository';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { PassportModule } from '@nestjs/passport';
     CompanyModule,
     FilesModule,
     ReportsModule,
+    InsuranceModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [InternshipController],
@@ -34,6 +37,7 @@ import { PassportModule } from '@nestjs/passport';
     StudentRepository,
     FileRepository,
     ReportRepository,
+    InsuranceRepository,
     CompanyEvaluationRepository,
   ],
   exports: [InternshipsService],

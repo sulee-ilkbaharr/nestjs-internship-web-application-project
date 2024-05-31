@@ -15,6 +15,7 @@ import { Company } from 'src/company/company.entity';
 import { FileEntity } from 'src/files/file.entity';
 import { Reports } from 'src/reports/report.entity';
 import { Assessment } from 'src/assessment/assessment.entity';
+import { Insurance } from 'src/insurance/insurance.entity';
 // import { File } from 'src/files/file.entity';
 
 @Entity()
@@ -75,4 +76,8 @@ export class Internship extends BaseEntity {
     eager: false,
   })
   assessments: Assessment[];
+
+  @OneToOne(() => Insurance, (insurace) => insurace.internship, { eager: true })
+  @JoinColumn()
+  insurance: Insurance;
 }
