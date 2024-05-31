@@ -29,9 +29,9 @@ export class JwtAuthMiddleware implements NestMiddleware {
 
     try {
       const decoded = this.jwtService.verify(token);
-      const user = await this.authService.findById(decoded.id); // Kullanıcıyı veritabanından alın
+      const user = await this.authService.getUserByEmail(decoded.email); // Kullanıcıyı veritabanından alın
       if (!user) {
-        console.log('User not found');
+        console.log('User not found for email:', decoded.email);
         throw new UnauthorizedException('User not found');
       }
       req.user = user; // Kullanıcıyı request nesnesine ekleyin

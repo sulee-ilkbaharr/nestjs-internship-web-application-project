@@ -8,6 +8,7 @@ import {
   Req,
   Res,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ReportsService } from './reports.service';
@@ -16,8 +17,10 @@ import { diskStorage } from 'multer';
 import { Response, Request } from 'express';
 import { UpdateReportStatusDto } from './dto/update-report-status.dto';
 import { User } from 'src/auth/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('reports')
+@UseGuards(AuthGuard('jwt'))
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
