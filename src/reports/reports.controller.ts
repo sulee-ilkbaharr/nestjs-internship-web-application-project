@@ -25,6 +25,7 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Post(':internshipId/upload')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: diskStorage({
@@ -49,11 +50,13 @@ export class ReportsController {
   }
 
   @Get(':internshipId')
+  @UseGuards(AuthGuard('jwt'))
   getReportsByInternship(@Param('internshipId') internshipId: string) {
     return this.reportsService.getReportsByInternship(internshipId);
   }
 
   @Get('download/:filename')
+  @UseGuards(AuthGuard('jwt'))
   async downloadFile(
     @Param('filename') filename: string,
     @Res() res: Response,
@@ -62,6 +65,7 @@ export class ReportsController {
   }
 
   @Patch(':reportId/status')
+  @UseGuards(AuthGuard('jwt'))
   async updateReportStatus(
     @Param('reportId') reportId: string,
     @Body() updateReportStatusDto: UpdateReportStatusDto,
