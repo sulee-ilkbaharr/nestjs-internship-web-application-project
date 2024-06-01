@@ -25,7 +25,7 @@ export class User {
   password: string;
 
   @Column({ nullable: false })
-  role: UserRole; // 'student', 'department', 'academic dean', 'internship coordinator'
+  role: UserRole;
 
   @OneToOne(() => Student, (student) => student.user, {
     cascade: true,

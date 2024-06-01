@@ -9,6 +9,6 @@ import { StudentRepository } from './student.repository';
   imports: [TypeOrmModule.forFeature([Student])],
   controllers: [StudentController],
   providers: [StudentService, StudentRepository],
-  exports: [StudentService], //başka moduller de import edilerbilmesi için , metadata hatasını çözer .
+  exports: [StudentService],
 })
 export class StudentModule {}

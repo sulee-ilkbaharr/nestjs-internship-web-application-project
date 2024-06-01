@@ -23,8 +23,6 @@ export class Internship extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  //companyName konusuumnInternshinda kafalar karışık
-
   @Column()
   companyName: string;
 
@@ -56,8 +54,6 @@ export class Internship extends BaseEntity {
     eager: false,
   })
   user: User;
-
-  //bir internshipin bir tane companye sahip olur ancak companynin birden fazla internship i olabilir
 
   @ManyToOne((_type) => Company, (company) => company.internships, {
     eager: true,

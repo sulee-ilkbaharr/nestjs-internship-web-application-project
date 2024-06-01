@@ -74,4 +74,14 @@ export class InternshipRepository extends Repository<Internship> {
     await this.save(internship);
     return internship;
   }
+
+  async findInternshipsByStatusAndDate(
+    status: InternshipStatus,
+    date: string,
+  ): Promise<Internship[]> {
+    return this.createQueryBuilder('internship')
+      .where('internship.status = :status', { status })
+      .andWhere('internship.finishDate = :date', { date })
+      .getMany();
+  }
 }

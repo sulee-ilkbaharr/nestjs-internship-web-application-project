@@ -2,7 +2,6 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { InternshipStatus } from '../internship-status.enum';
 
 export class GetInternshipFilterDto {
-  // HANGİ FİLTRELEME YÖNTEMİNE GÖRE FİLTRELEME OLACAKSA, IN_PROGRESSTE OLANLAR TABLO TARAFINDAN ÇEKİLİR
   @IsOptional()
   @IsEnum(InternshipStatus)
   status?: InternshipStatus; //
@@ -11,7 +10,7 @@ export class GetInternshipFilterDto {
   @IsEnum(InternshipStatus, { each: true })
   notStatus?: InternshipStatus[];
 
-  @IsOptional() //Bunu Ekle hata almamak için
+  @IsOptional()
   @IsString()
-  search?: string; //optinal
+  search?: string;
 }

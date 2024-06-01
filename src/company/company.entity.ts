@@ -42,6 +42,4 @@ export class Company extends BaseEntity {
   )
   @JoinColumn()
   companyEvaluation: CompanyEvaluation;
-
-  //bir internship sadece bir tane company içerebilir ama company birden fazla internshipe sahip olabilir.
 }

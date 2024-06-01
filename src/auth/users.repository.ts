@@ -23,10 +23,6 @@ export class UserRepository extends Repository<User> {
       password: hashedPassword,
       role,
     });
-    //hash
-
-    //console.log('salt', salt);
-    //console.log('hasshedPassword', hashedPassword);
 
     await this.save(user);
     return user;

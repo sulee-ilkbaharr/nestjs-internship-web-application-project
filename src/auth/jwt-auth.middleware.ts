@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response, NextFunction } from 'express';
-import { AuthService } from './auth.service'; // AuthService'i içe aktarın
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class JwtAuthMiddleware implements NestMiddleware {
@@ -34,7 +34,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
         console.log('User not found for email:', decoded.email);
         throw new UnauthorizedException('User not found');
       }
-      req.user = user; // Kullanıcıyı request nesnesine ekleyin
+      req.user = user;
       next();
     } catch (error) {
       console.log('Invalid token', error);
