@@ -170,7 +170,8 @@ export class InternshipsService {
 
     if (
       user.role !== UserRole.DEPARTMENT &&
-      user.role !== UserRole.FACULTY_DEAN
+      user.role !== UserRole.FACULTY_DEAN &&
+      user.role !== UserRole.INTERNSHIP_COORDINATOR
     ) {
       throw new ForbiddenException(
         'You do not have permission to perform this action',
