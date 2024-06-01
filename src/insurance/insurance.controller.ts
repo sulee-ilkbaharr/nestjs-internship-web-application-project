@@ -20,6 +20,7 @@ export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}
 
   @Post(':internshipId/upload')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     AnyFilesInterceptor({
       storage: diskStorage({
@@ -54,11 +55,13 @@ export class InsuranceController {
   }
 
   @Get(':internshipId')
+  @UseGuards(AuthGuard('jwt'))
   getInsuranceByInternship(@Param('internshipId') internshipId: string) {
     return this.insuranceService.getInsuranceByInternship(internshipId);
   }
 
   @Get('download/:filename')
+  @UseGuards(AuthGuard('jwt'))
   async downloadFile(
     @Param('filename') filename: string,
     @Res() res: Response,
