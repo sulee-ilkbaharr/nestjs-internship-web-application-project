@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InsuranceRepository } from './insurance.repository';
 import { InternshipRepository } from 'src/internship/internships.repository';
 import { Insurance } from './insurance.entity';
+import { InternshipStatus } from 'src/internship/internship-status.enum';
 
 @Injectable()
 export class InsuranceService {
@@ -31,6 +32,7 @@ export class InsuranceService {
     });
 
     await this.insuranceRepository.save(newFile);
+    internship.status = InternshipStatus.INSURANCE_UPLOADED;
     internship.insurance = newFile;
     await this.internshipRepository.save(internship);
 
