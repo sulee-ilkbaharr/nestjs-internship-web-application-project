@@ -1,6 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateInternshipDto } from './dto/create-internship.dto';
@@ -17,6 +18,7 @@ import { UserRole } from 'src/auth/user-role.enum';
 import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import * as nodemailer from 'nodemailer';
+import * as moment from 'moment';
 
 @Injectable()
 export class InternshipsService {
@@ -27,6 +29,28 @@ export class InternshipsService {
     private readonly studentRepository: StudentRepository,
     private readonly companyEvaluationRepository: CompanyEvaluationRepository,
   ) {}
+  private readonly logger = new Logger(InternshipsService.name);
+
+  @Cron('* * * * * *') // This runs every second
+  async checkAndCompleteInternships() {
+    // const today = moment().format('DD-MM-YYYY'); // Bugünün tarihini formatlayın
+    // this.logger.debug(`Running cron job for date: ${today}`);
+
+    const internshipsToUpdate = await this.internshipsRepository.find({
+      where: { status: InternshipStatus.INSURANCE_UPLOADED },
+    });
+
+    for (const internship of internshipsToUpdate) {
+      const finishDate = moment(internship.finishDate, 'DD-MM-YYYY'); // Tarih formatını belirtin
+      if (finishDate.isSame(moment(), 'day')) {
+        internship.status = InternshipStatus.COMPLETED;
+        await this.internshipsRepository.save(internship);
+        this.logger.debug(
+          `Updated internship ID ${internship.id} to COMPLETED`,
+        );
+      }
+    }
+  }
 
   getInternshipswithfilter(
     filterDto: GetInternshipFilterDto,
@@ -183,45 +207,54 @@ export class InternshipsService {
     return internship;
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  async handleCron(internshipId: string) {
-    const today = new Date().toISOString().split('T')[0];
-    console.log(`Running cron job for date: ${today}`); // Log ekleyerek kontrol edin
+  @Cron(CronExpression.EVERY_MINUTE) // This runs every minute for testing purposes
+  async handleCron() {
+    const today = moment().format('DD-MM-YYYY');
+    this.logger.debug(`Running cron job for date: ${today}`);
 
     const internships = await this.internshipsRepository.find({
-      where: { finishDate: today },
-      relations: ['company'],
+      where: { finishDate: today, status: InternshipStatus.COMPLETED },
+      relations: ['company', 'user'],
     });
 
-    console.log(`Found ${internships.length} internships finishing today.`); // Log ekleyerek kontrol edin
+    this.logger.debug(
+      `Found ${internships.length} internships finishing today.`,
+    );
 
     for (const internship of internships) {
       if (internship.company && internship.company.companyEmailAddress) {
         await this.sendAssessmentFormEmail(
           internship.company.companyEmailAddress,
-          internshipId,
+          internship.id,
         );
-        console.log(`Sent email to ${internship.company.companyEmailAddress}`); // Log ekleyerek kontrol edin
+        this.logger.debug(
+          `Sent email to ${internship.company.companyEmailAddress}`,
+        );
+      }
+      if (internship.user && internship.user.email) {
+        await this.sendEmailForUser(internship.user.email, internship.id);
+        this.logger.debug(`Sent email to user ${internship.user.email}`);
       }
     }
   }
 
-  //TEST için!!!
-  async sendEmailForTesting(internshipId: string) {
-    const internship = await this.getIntershipById(internshipId);
+  async sendEmailForUser(email: string, internshipId: string) {
+    const transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user: 'your-email@hotmail.com', // Gerçek email ve şifreyi buraya girin
+        pass: 'your-email-password',
+      },
+    });
 
-    if (!internship.company || !internship.company.companyEmailAddress) {
-      throw new NotFoundException(
-        `Company or company email not found for internship ID: ${internshipId}`,
-      );
-    }
+    const mailOptions = {
+      from: 'your-email@hotmail.com',
+      to: email,
+      subject: 'Internship Completion Notification',
+      text: `Your internship with ID: ${internshipId} has been completed successfully.`,
+    };
 
-    await this.sendAssessmentFormEmail(
-      internship.company.companyEmailAddress,
-      internshipId,
-    );
-
-    return { message: 'Email sent successfully' };
+    await transporter.sendMail(mailOptions);
   }
 
   async sendAssessmentFormEmail(email: string, internshipId: string) {
@@ -240,13 +273,7 @@ export class InternshipsService {
       text: `Please fill out the assessment form for the internship. Link: http://127.0.0.1:5502/view/internship_assesment_form/internship_assesment_form.html?internshipId=${internshipId}`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email: ', error);
-        throw new Error('Email not sent');
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    await transporter.sendMail(mailOptions);
+    return { message: 'Email sent successfully' };
   }
 }

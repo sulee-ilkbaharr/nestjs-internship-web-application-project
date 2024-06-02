@@ -29,6 +29,6 @@ import { CoordinatorModule } from 'src/coordinator/coordinator.module';
   ],
   providers: [AuthService, UserRepository, JwtStrategy],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule, AuthService], // AuthService eklendi böylelikle studentta kullnamak için import edilebilir , ve diğerlerinde
+  exports: [JwtStrategy, PassportModule, AuthService],
 })
 export class AuthModule {}

@@ -8,7 +8,6 @@ import {
   MinLength,
 } from 'class-validator';
 import { UserRole } from '../user-role.enum';
-// import { UserRole } from '../user-role.enum';
 export class AuthCreadentialsDto {
   @IsString()
   @MinLength(4)
