@@ -44,4 +44,26 @@ export class FilesService {
 
     return newFile;
   }
+
+  async getUploadedFiles(internshipId: string): Promise<FileEntity> {
+    const internship = await this.internshipRepository.findOneBy({
+      id: internshipId,
+    });
+    if (!internship) {
+      throw new NotFoundException(
+        `Internship with ID ${internshipId} not found`,
+      );
+    }
+
+    const files = await this.fileRepository.findOneBy({
+      internship: internship,
+    });
+    if (!files) {
+      throw new NotFoundException(
+        `Files for internship with ID ${internshipId} not found`,
+      );
+    }
+
+    return files;
+  }
 }

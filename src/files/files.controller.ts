@@ -4,6 +4,7 @@ import {
   UseInterceptors,
   UploadedFiles,
   Param,
+  Get,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FilesService } from './files.service';
@@ -47,5 +48,10 @@ export class FilesController {
     };
 
     return this.filesService.uploadFiles(fileMap, internshipId);
+  }
+
+  @Get(':internshipId/uploaded')
+  async getUploadedFiles(@Param('internshipId') internshipId: string) {
+    return this.filesService.getUploadedFiles(internshipId);
   }
 }
