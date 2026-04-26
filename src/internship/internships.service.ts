@@ -18,7 +18,7 @@ import { UserRole } from 'src/auth/user-role.enum';
 import { CompanyEvaluationRepository } from 'src/company-evaluation/company-evaluation.repository';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import * as nodemailer from 'nodemailer';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Injectable()
 export class InternshipsService {
@@ -261,13 +261,13 @@ export class InternshipsService {
     const transporter = nodemailer.createTransport({
       service: 'hotmail',
       auth: {
-        user: 'nilhan.t@hotmail.com', // Gerçek email ve şifreyi buraya girin
-        pass: 'Bilgen321.',
+        user: 'your-email@hotmail.com', // Gerçek email ve şifreyi buraya girin
+        pass: 'your password',
       },
     });
 
     const mailOptions = {
-      from: 'nilhan.t@hotmail.com',
+      from: 'your-email@hotmail.com',
       to: email,
       subject: 'Assessment Form',
       text: `Please fill out the assessment form for the internship. Link: http://127.0.0.1:5502/view/internship_assesment_form/internship_assesment_form.html?internshipId=${internshipId}`,
